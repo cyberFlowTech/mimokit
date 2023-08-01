@@ -7,9 +7,9 @@ import (
 	"sort"
 	"strconv"
 
-	"gitlab.infras.tech/infras/infraskit/utils"
+	"github.com/cyberFlowTech/mimokit/utils"
 
-	"gitlab.infras.tech/infras/infraskit/response"
+	"github.com/cyberFlowTech/mimokit/response"
 
 	"net/http"
 
