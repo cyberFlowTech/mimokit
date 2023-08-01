@@ -1,4 +1,4 @@
-module gitlab.infras.tech/infras/infraskit
+module github.com/cyberFlowTech/mimokit
 
 go 1.18
 
