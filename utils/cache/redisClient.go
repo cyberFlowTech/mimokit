@@ -190,3 +190,14 @@ func (c *RedisClient) ZaddFloatCtx(ctx context.Context, key string, score float6
 	return
 
 }
+
+func (c *RedisClient) RpushCtx(ctx context.Context, key string, values ...any) (val int, err error) {
+
+	v, err := c.rc.RPush(ctx, key, values...).Result()
+	if err != nil {
+		return
+	}
+
+	val = int(v)
+	return
+}
