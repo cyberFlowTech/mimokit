@@ -257,3 +257,24 @@ func (c *RedisClient) ZaddsCtx(ctx context.Context, key string, ps ...Pair) (val
 	val = v
 	return
 }
+
+func (c *RedisClient) SaddCtx(ctx context.Context, key string, members ...interface{}) (int64, error) {
+	return c.rc.SAdd(ctx, key, members...).Result()
+}
+
+func (c *RedisClient) SRem(ctx context.Context, key string, members ...interface{}) (int64, error) {
+	return c.rc.SRem(ctx, key, members...).Result()
+}
+func (c *RedisClient) SIsMember(ctx context.Context, key string, member interface{}) (bool, error) {
+	return c.rc.SIsMember(ctx, key, member).Result()
+}
+func (c *RedisClient) SMembers(ctx context.Context, key string) ([]string, error) {
+	return c.rc.SMembers(ctx, key).Result()
+}
+func (c *RedisClient) SCard(ctx context.Context, key string) (int64, error) {
+	return c.rc.SCard(ctx, key).Result()
+}
+
+func (c *RedisClient) Del(ctx context.Context, keys ...string) (int64, error) {
+	return c.rc.Del(ctx, keys...).Result()
+}
