@@ -128,7 +128,7 @@ func (c *RedisClient) GetCtx(ctx context.Context, key string) (val string, err e
 	if err == redis.Nil {
 		err = nil
 	}
-	return c.rc.Get(ctx, key).Result()
+	return
 }
 
 func (c *RedisClient) SetexCtx(ctx context.Context, key, value string, seconds int) error {
