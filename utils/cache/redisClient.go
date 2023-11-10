@@ -124,6 +124,10 @@ func (c *RedisClient) DelCtx(ctx context.Context, keys ...string) (val int, err 
 }
 
 func (c *RedisClient) GetCtx(ctx context.Context, key string) (val string, err error) {
+	val, err = c.rc.Get(ctx, key).Result()
+	if err == redis.Nil {
+		err = nil
+	}
 	return c.rc.Get(ctx, key).Result()
 }
 
