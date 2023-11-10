@@ -177,7 +177,6 @@ func (c *RedisClient) ZaddCtx(ctx context.Context, key string, score int64, valu
 
 func (c *RedisClient) ZaddFloatCtx(ctx context.Context, key string, score float64, value string) (
 	val bool, err error) {
-
 	v, err := c.rc.ZAdd(ctx, key, redis.Z{
 		Score:  score,
 		Member: value,
@@ -185,19 +184,29 @@ func (c *RedisClient) ZaddFloatCtx(ctx context.Context, key string, score float6
 	if err != nil {
 		return
 	}
-
 	val = v == 1
 	return
 
 }
 
 func (c *RedisClient) RpushCtx(ctx context.Context, key string, values ...any) (val int, err error) {
-
 	v, err := c.rc.RPush(ctx, key, values...).Result()
 	if err != nil {
 		return
 	}
-
 	val = int(v)
 	return
+}
+
+func (c *RedisClient) ExistsCtx(ctx context.Context, key string) (val bool, err error) {
+	v, err := c.rc.Exists(ctx, key).Result()
+	if err != nil {
+		return
+	}
+	val = v == 1
+	return
+}
+
+func (c *RedisClient) HsetCtx(ctx context.Context, key, field, value string) error {
+	return c.rc.HSet(ctx, key, field, value).Err()
 }
