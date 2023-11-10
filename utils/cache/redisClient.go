@@ -214,3 +214,43 @@ func (c *RedisClient) ExistsCtx(ctx context.Context, key string) (val bool, err 
 func (c *RedisClient) HsetCtx(ctx context.Context, key, field, value string) error {
 	return c.rc.HSet(ctx, key, field, value).Err()
 }
+
+func (c *RedisClient) HgetCtx(ctx context.Context, key, field string) (val string, err error) {
+	val, err = c.rc.HGet(ctx, key, field).Result()
+	return
+}
+
+func (c *RedisClient) ZrevrangeWithScoresCtx(ctx context.Context, key string, start, stop int64) (
+	val []Pair, err error) {
+
+	v, err := c.rc.ZRevRangeWithScores(ctx, key, start, stop).Result()
+	if err != nil {
+		return
+	}
+
+	val = toPairs(v)
+	return
+}
+
+func (c *RedisClient) ZcardCtx(ctx context.Context, key string) (val int, err error) {
+	v, err := c.rc.ZCard(ctx, key).Result()
+	if err != nil {
+		return
+	}
+	val = int(v)
+	return
+}
+
+func (c *RedisClient) ZaddsCtx(ctx context.Context, key string, ps ...Pair) (val int64, err error) {
+	var zs []redis.Z
+	for _, p := range ps {
+		z := redis.Z{Score: float64(p.Score), Member: p.Key}
+		zs = append(zs, z)
+	}
+	v, err := c.rc.ZAdd(ctx, key, zs...).Result()
+	if err != nil {
+		return
+	}
+	val = v
+	return
+}
