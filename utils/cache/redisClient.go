@@ -217,6 +217,9 @@ func (c *RedisClient) HsetCtx(ctx context.Context, key, field, value string) err
 
 func (c *RedisClient) HgetCtx(ctx context.Context, key, field string) (val string, err error) {
 	val, err = c.rc.HGet(ctx, key, field).Result()
+	if err == redis.Nil {
+		err = nil
+	}
 	return
 }
 
