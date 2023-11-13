@@ -145,6 +145,9 @@ func IdEncrypt(data, userId string) string {
 
 // IdDecrypt id解密
 func IdDecrypt(encrypted string) (string, error) {
+	if encrypted == "" {
+		return "", nil
+	}
 	str, err := reversibleDecrypt(encrypted, ClubEncryptKey)
 	if err != nil {
 		return "", err
