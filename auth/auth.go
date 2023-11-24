@@ -17,7 +17,7 @@ import (
 )
 
 // 根据payload计算签名
-func GetSign(params map[string]string, securityKey string) string {
+func GetSign(params map[string]string, securityKey string) (string, string) {
 	params["security_key"] = securityKey
 	var keys []string
 	for k := range params {
@@ -31,9 +31,8 @@ func GetSign(params map[string]string, securityKey string) string {
 		uParams.Set(k, params[k])
 	}
 	data, _ := url.QueryUnescape(uParams.Encode())
-	logx.Error("GetSign str", data)
 	md5Str := utils.ToMD5(data)
-	return md5Str
+	return md5Str, data
 }
 
 // Auth
@@ -80,11 +79,11 @@ func Auth(r *http.Request) (bool, error) {
 		return false, response.SignError
 	}
 	// 根据入参计算签名
-	signCalculated := GetSign(payloadMap, securityKey)
+	signCalculated, signStr := GetSign(payloadMap, securityKey)
 
 	// 入参签名和计算签名不一致校验不通过
 	if sign != signCalculated {
-		logx.Error("sign not equal", sign, signCalculated)
+		logx.Errorf("sign not equal client:%s server:%s text:%s", sign, signCalculated, signStr)
 		return false, response.SignError
 	}
 
