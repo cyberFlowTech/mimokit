@@ -278,3 +278,7 @@ func (c *RedisClient) SCard(ctx context.Context, key string) (int64, error) {
 func (c *RedisClient) Del(ctx context.Context, keys ...string) (int64, error) {
 	return c.rc.Del(ctx, keys...).Result()
 }
+
+func (c *RedisClient) Zrem(ctx context.Context, key string, members ...interface{}) (int64, error) {
+	return c.rc.ZRem(ctx, key, members).Result()
+}
