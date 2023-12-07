@@ -282,3 +282,7 @@ func (c *RedisClient) Del(ctx context.Context, keys ...string) (int64, error) {
 func (c *RedisClient) Zrem(ctx context.Context, key string, members ...interface{}) (int64, error) {
 	return c.rc.ZRem(ctx, key, members).Result()
 }
+
+func (c *RedisClient) IncrCtx(ctx context.Context, key string) (int64, error) {
+	return c.rc.Incr(ctx, key).Result()
+}
