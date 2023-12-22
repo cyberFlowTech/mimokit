@@ -67,7 +67,7 @@ func (h *HTTPResponse) MapErrMsg(errCode int) string {
 	if msg, ok := h.message[errCode]; ok {
 		return msg
 	} else {
-		return "服务器开小差啦,稍后再来试一试"
+		return "The current network is congested, please wait"
 	}
 }
 

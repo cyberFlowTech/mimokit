@@ -235,6 +235,17 @@ func (c *RedisClient) ZrevrangeWithScoresCtx(ctx context.Context, key string, st
 	return
 }
 
+func (c *RedisClient) ZRevRangeByScore(ctx context.Context, key string, min, max string, offset, count int64) (
+	[]string, error) {
+
+	return c.rc.ZRevRangeByScore(ctx, key, &redis.ZRangeBy{
+		Min:    min,
+		Max:    max,
+		Offset: offset,
+		Count:  count,
+	}).Result()
+}
+
 func (c *RedisClient) ZcardCtx(ctx context.Context, key string) (val int, err error) {
 	v, err := c.rc.ZCard(ctx, key).Result()
 	if err != nil {
@@ -281,6 +292,10 @@ func (c *RedisClient) Del(ctx context.Context, keys ...string) (int64, error) {
 
 func (c *RedisClient) Zrem(ctx context.Context, key string, members ...interface{}) (int64, error) {
 	return c.rc.ZRem(ctx, key, members).Result()
+}
+
+func (c *RedisClient) IncrCtx(ctx context.Context, key string) (int64, error) {
+	return c.rc.Incr(ctx, key).Result()
 }
 
 func (c *RedisClient) ZRevRangeByScoreWithScoresAndLimitCtx(ctx context.Context, key string, start,
