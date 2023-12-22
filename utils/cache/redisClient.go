@@ -282,3 +282,22 @@ func (c *RedisClient) Del(ctx context.Context, keys ...string) (int64, error) {
 func (c *RedisClient) Zrem(ctx context.Context, key string, members ...interface{}) (int64, error) {
 	return c.rc.ZRem(ctx, key, members).Result()
 }
+
+func (c *RedisClient) ZRevRangeByScoreWithScoresAndLimitCtx(ctx context.Context, key string, start,
+	stop int64, page, size int) (val []Pair, err error) {
+	if size <= 0 {
+		return
+	}
+	v, err := c.rc.ZRevRangeByScoreWithScores(ctx, key, &redis.ZRangeBy{
+		Min:    strconv.FormatInt(start, 10),
+		Max:    strconv.FormatInt(stop, 10),
+		Offset: int64(page * size),
+		Count:  int64(size),
+	}).Result()
+	if err != nil {
+		return
+	}
+
+	val = toPairs(v)
+	return
+}
