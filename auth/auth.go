@@ -50,11 +50,15 @@ func Auth(r *http.Request) (bool, error) {
 
 	// 解析
 	var payloadMap = make(map[string]string)
+	var noNilStringPayloadMap = make(map[string]string)
 	r.ParseForm()
 	for key, value := range r.Form {
 		if len(value) > 0 {
 			value1, _ := url.QueryUnescape(value[0])
 			payloadMap[key] = value1
+			if value1 != "" {
+				noNilStringPayloadMap[key] = value1
+			}
 		} else {
 			payloadMap[key] = ""
 		}
@@ -80,10 +84,13 @@ func Auth(r *http.Request) (bool, error) {
 	}
 	// 根据入参计算签名
 	signCalculated, signStr := GetSign(payloadMap, securityKey)
+	// 计算没有空字符串的参数签名
+	noNilStringSignCalculated, noNIlStringSignStr := GetSign(noNilStringPayloadMap, securityKey)
 
 	// 入参签名和计算签名不一致校验不通过
-	if sign != signCalculated && sign != "d04fe7bec38e0d596545372e24d5a8f4" {
+	if sign != signCalculated && sign != noNilStringSignCalculated && sign != "d04fe7bec38e0d596545372e24d5a8f4" {
 		logx.Errorf("sign not equal client:%s server:%s text:%s", sign, signCalculated, signStr)
+		logx.Errorf("noNilStingSign not equal client:%s server:%s text:%s", sign, noNilStringSignCalculated, noNIlStringSignStr)
 		return false, response.SignError
 	}
 
