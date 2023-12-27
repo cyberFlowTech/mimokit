@@ -316,3 +316,13 @@ func (c *RedisClient) ZRevRangeByScoreWithScoresAndLimitCtx(ctx context.Context,
 	val = toPairs(v)
 	return
 }
+
+func (c *RedisClient) Ttl(ctx context.Context, key string) (val int, err error) {
+	duration, err := c.rc.TTL(ctx, key).Result()
+	if err != nil {
+		return
+	}
+
+	val = int(duration / time.Second)
+	return
+}

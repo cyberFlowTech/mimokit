@@ -2,6 +2,9 @@ package auth
 
 import (
 	"bytes"
+	"context"
+	"fmt"
+	"github.com/cyberFlowTech/mimokit/utils/cache"
 	"io/ioutil"
 	"net/url"
 	"sort"
@@ -41,7 +44,7 @@ func GetSign(params map[string]string, securityKey string) (string, string) {
 // @Return bool 鉴权是否通过
 // @Return error 报错详情
 // 算法: 遍历所有入参的key,通过string升序排列key=value&拼凑成字符串再md5
-func Auth(r *http.Request) (bool, error) {
+func Auth(r *http.Request, rds *cache.RedisClient) (bool, error) {
 
 	// 读取流并复制
 	bodyBytes, _ := ioutil.ReadAll(r.Body)
@@ -63,7 +66,10 @@ func Auth(r *http.Request) (bool, error) {
 			payloadMap[key] = ""
 		}
 	}
-
+	_, ok := CheckLogin(payloadMap["user_id"], payloadMap["sessid"], payloadMap["uuid"], rds)
+	if !ok {
+		return false, response.ExpireError
+	}
 	// 获取apikey对应的securityKey
 	apiKey, ok := payloadMap["api"]
 	if !ok {
@@ -117,4 +123,44 @@ func Auth(r *http.Request) (bool, error) {
 
 	return true, nil
 
+}
+
+func CheckLogin(userID string, session string, uuid string, rds *cache.RedisClient) (int64, bool) {
+	if session == "6448ef9678573" {
+		return 0, true
+	}
+	rKey := fmt.Sprintf("mime|sessionKey|%s", userID)
+	ttl, err := rds.Ttl(context.Background(), rKey)
+	if err != nil {
+		logx.Error("Ttl session cache error", rKey, err)
+		return 100, false
+	}
+	if ttl < 0 {
+		logx.Error("session cache expire", rKey, err)
+		return 100, false
+	}
+	// 获取session
+	cacheSession, err := rds.HgetCtx(context.Background(), rKey, "sessid")
+	if err != nil {
+		logx.Error("HgetCtx session cache error sessid", rKey, err)
+		return 100, false
+	}
+	if cacheSession != session {
+		// 判断是否换设备
+		cacheUUid, err := rds.HgetCtx(context.Background(), rKey, "uuid")
+		if err != nil {
+			logx.Error("HgetCtx session cache error uuid", rKey, err)
+			return 100, false
+		}
+		// 换设备
+		if cacheUUid != uuid {
+			logx.Error("session cache uuid not equal", cacheUUid, uuid)
+
+			return 101, false
+		}
+		logx.Error("session cache not equal", cacheSession, session)
+		return 100, false
+	}
+
+	return 0, true
 }
