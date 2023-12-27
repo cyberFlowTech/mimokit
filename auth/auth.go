@@ -84,14 +84,16 @@ func Auth(r *http.Request) (bool, error) {
 	}
 	// 根据入参计算签名
 	signCalculated, signStr := GetSign(payloadMap, securityKey)
-	// 计算没有空字符串的参数签名
-	noNilStringSignCalculated, noNIlStringSignStr := GetSign(noNilStringPayloadMap, securityKey)
 
 	// 入参签名和计算签名不一致校验不通过
-	if sign != signCalculated && sign != noNilStringSignCalculated && sign != "d04fe7bec38e0d596545372e24d5a8f4" {
+	if sign != signCalculated && sign != "d04fe7bec38e0d596545372e24d5a8f4" {
 		logx.Errorf("sign not equal client:%s server:%s text:%s", sign, signCalculated, signStr)
-		logx.Errorf("noNilStingSign not equal client:%s server:%s text:%s", sign, noNilStringSignCalculated, noNIlStringSignStr)
-		return false, response.SignError
+		// 计算没有空字符串的参数签名
+		noNilStringSignCalculated, noNIlStringSignStr := GetSign(noNilStringPayloadMap, securityKey)
+		if sign != noNilStringSignCalculated {
+			logx.Errorf("noNilStingSign not equal client:%s server:%s text:%s", sign, noNilStringSignCalculated, noNIlStringSignStr)
+			return false, response.SignError
+		}
 	}
 
 	// 签名超过1小时校验不通过
