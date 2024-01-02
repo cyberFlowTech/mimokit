@@ -9,7 +9,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"io"
-	"net/url"
 	"sort"
 	"strconv"
 	"strings"
@@ -44,8 +43,9 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 	var payloadMap = make(map[string]string)
 	for key, value := range r.Form {
 		if len(value) > 0 {
-			value1, _ := url.PathUnescape(value[0])
-			payloadMap[key] = value1
+			//value1, _ := url.PathUnescape(value[0])
+			//payloadMap[key] = value1
+			payloadMap[key] = value[0]
 		} else {
 			payloadMap[key] = ""
 		}
