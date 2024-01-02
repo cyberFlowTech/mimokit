@@ -6,6 +6,7 @@ import (
 	"fmt"
 	response2 "github.com/cyberFlowTech/mimokit/response/v2"
 	"github.com/cyberFlowTech/mimokit/utils/cache"
+	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"io"
 	"net/url"
@@ -25,20 +26,20 @@ import (
 // Auth
 // @Description 实现鉴权功能
 // @Param r http请求,接口的入参,调用者需要提前把sign值计算好,必须传sign_time和sign
-func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) {
+func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error {
 
 	// 读取流并复制
 	bodyBytes, _ := io.ReadAll(r.Body)
 	err := r.Body.Close()
 	if err != nil {
 		httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "服务内部错误"))
-		return
+		return errors.New("服务内部错误")
 	}
 	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 	err = r.ParseForm()
 	if err != nil {
 		httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "服务内部错误"))
-		return
+		return errors.New("服务内部错误")
 	}
 	var payloadMap = make(map[string]string)
 	for key, value := range r.Form {
@@ -53,16 +54,16 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) {
 		code, ok := CheckLogin(payloadMap["user_id"], payloadMap["sessid"], payloadMap["uuid"], rds)
 		if !ok {
 			httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(int(code), "Session has expired, please log in again"))
-			return
+			return errors.New("Session has expired, please log in again")
 		}
 	}
 	_, err = checkSign(payloadMap)
 	if err != nil {
 		httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "Invalid signature information"))
-		return
+		return errors.New("Invalid signature information")
 	}
 	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-	return
+	return nil
 }
 
 func checkSign(payloadMap map[string]string) (bool, error) {
