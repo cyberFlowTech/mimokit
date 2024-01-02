@@ -61,20 +61,18 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) {
 		httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "Invalid signature information"))
 		return
 	}
-	// 重新给body赋值
 	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 	return
 }
 
 func checkSign(payloadMap map[string]string) (bool, error) {
-	// 获取apikey对应的securityKey
 	apiKey, ok := payloadMap["api"]
 	if !ok {
 		logx.Error("api key not found")
 		return false, response.SignError
 	}
-	securityKey, ok1 := utils.ApiKeyMap[apiKey]
-	if !ok1 {
+	securityKey, ok := utils.ApiKeyMap[apiKey]
+	if !ok {
 		logx.Error("security key not found")
 		return false, response.SignError
 	}
@@ -84,18 +82,16 @@ func checkSign(payloadMap map[string]string) (bool, error) {
 		return false, response.SignError
 	}
 	delete(payloadMap, "sign")
-	// 根据入参计算签名
+
 	signCalculated, signStr := GetSign(payloadMap, securityKey)
 
-	// 入参签名和计算签名不一致校验不通过
 	if sign != signCalculated && sign != "d04fe7bec38e0d596545372e24d5a8f4" {
 		logx.Errorf("sign not equal client:%s server:%s text:%s", sign, signCalculated, signStr)
 		return false, response.SignError
 	}
 
-	// 签名超过1小时校验不通过
-	signTimeStr, ok3 := payloadMap["sign_time"]
-	if !ok3 {
+	signTimeStr, ok := payloadMap["sign_time"]
+	if !ok {
 		logx.Error("sign_time not found")
 		return false, response.SignError
 	}
@@ -119,14 +115,12 @@ func GetSign(params map[string]string, securityKey string) (string, string) {
 }
 func kv2String(arr map[string]string, securityKey string, ext string) string {
 	arr["security_key"] = securityKey
-	// 对关联数组按照键名进行升序排序
 	keys := make([]string, 0, len(arr))
 	for k := range arr {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 
-	// 遍历关联数组，生成目标数组
 	targetArr := []string{}
 	for _, k := range keys {
 		a := arr[k]
@@ -134,8 +128,6 @@ func kv2String(arr map[string]string, securityKey string, ext string) string {
 			targetArr = append(targetArr, k+"="+a)
 		}
 	}
-
-	// 使用 implode 函数生成字符串
 	return strings.Join(targetArr, ext)
 }
 
