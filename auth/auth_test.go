@@ -86,7 +86,7 @@ func TestAuth(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := Auth(tt.args.r)
+			got, err := Auth(tt.args.r, nil)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Auth() error = %v, wantErr %v", err, tt.wantErr)
 				return
