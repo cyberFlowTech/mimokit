@@ -125,9 +125,7 @@ func kv2String(arr map[string]string, securityKey string, ext string) string {
 	targetArr := []string{}
 	for _, k := range keys {
 		a := arr[k]
-		if a != "" {
-			targetArr = append(targetArr, k+"="+a)
-		}
+		targetArr = append(targetArr, k+"="+a)
 	}
 	return strings.Join(targetArr, ext)
 }
