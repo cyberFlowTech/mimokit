@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"io"
+	"math"
 	"sort"
 	"strconv"
 	"strings"
@@ -67,6 +68,7 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 }
 
 func checkSign(payloadMap map[string]string) (bool, error) {
+	nowTime := utils.UnixSecondNow()
 	apiKey, ok := payloadMap["api"]
 	if !ok {
 		logx.Error("api key not found")
@@ -100,10 +102,10 @@ func checkSign(payloadMap map[string]string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	nowTime := utils.UnixSecondNow()
-	if nowTime-signTime > utils.PERIOD {
+	diffTime := int64(math.Abs(float64(int64(nowTime) - int64(signTime))))
+	if diffTime > utils.PERIOD {
 		logx.Error("sign time out", nowTime, signTime)
-		//return false, response.SignError
+		return false, response.SignError
 	}
 	return true, nil
 }
