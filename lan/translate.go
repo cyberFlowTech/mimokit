@@ -74,7 +74,7 @@ func (t *Translate) Trans(lan string, key string, args ...interface{}) string {
 	message, err := t.localizer[lan].LocalizeMessage(&i18n.Message{ID: key})
 	if err != nil {
 		logx.Errorf("Message Trans err : %s, lan : %s, key : %s", err.Error(), lan, key)
-		return ""
+		return "The current network is congested, please wait"
 	}
 
 	if len(args) > 0 {
