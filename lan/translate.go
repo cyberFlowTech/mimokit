@@ -75,7 +75,18 @@ func InitTranslate() {
 }
 
 func GetTranslate() *Translate {
+	if translateObj == nil {
+		InitTranslate()
+	}
 	return translateObj
+}
+
+func Trans(lan string, key string, args ...interface{}) string {
+	if p := GetTranslate(); p != nil {
+		p.Trans(lan, key, args)
+	}
+	//兜底文案
+	return ""
 }
 
 func (t *Translate) getLocalizer(lan string) *i18n.Localizer {
