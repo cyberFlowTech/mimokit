@@ -7,10 +7,14 @@ import (
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/zeromicro/go-zero/core/logx"
 	"golang.org/x/text/language"
+	"sync"
 )
 
 //go:embed locales
 var LocaleFS embed.FS
+
+var translateObj *Translate
+var once sync.Once
 
 type Translate struct {
 	bundle    *i18n.Bundle
@@ -44,7 +48,7 @@ func (t *Translate) loadLan() error {
 	return nil
 }
 
-func (t *Translate) NewTranslator() {
+func (t *Translate) newTranslator() {
 	for _, v := range t.lanList {
 		t.localizer[v] = i18n.NewLocalizer(t.bundle, t.getLanTag(v).String())
 	}
@@ -58,23 +62,41 @@ func (t *Translate) getLanTag(lan string) language.Tag {
 	return lanTag
 }
 
-func NewTranslate() (*Translate, error) {
-	obj := &Translate{}
-	obj.localizer = make(map[string]*i18n.Localizer)
-	obj.lanList = make([]string, 0)
-	err := obj.loadLan()
-	if err != nil {
-		return nil, err
-	}
-	obj.NewTranslator()
-	return obj, nil
+func InitTranslate() {
+	once.Do(func() {
+		translateObj = &Translate{}
+		translateObj.localizer = make(map[string]*i18n.Localizer)
+		translateObj.lanList = make([]string, 0)
+		err := translateObj.loadLan()
+		if err == nil {
+			translateObj.newTranslator()
+		}
+	})
 }
 
-func (t *Translate) Trans(lan string, key string, args ...interface{}) string {
+func GetTranslate() *Translate {
+	return translateObj
+}
+
+func (t *Translate) getLocalizer(lan string) *i18n.Localizer {
+	if t.localizer == nil || len(t.localizer) == 0 {
+		return nil
+	}
+
 	localizerObj, ok := t.localizer[lan]
 	if !ok {
 		localizerObj = t.localizer["en"]
 	}
+
+	return localizerObj
+}
+
+func (t *Translate) Trans(lan string, key string, args ...interface{}) string {
+	localizerObj := t.getLocalizer(lan)
+	if localizerObj == nil {
+		return "The current network is congested, please wait [-1]"
+	}
+
 	message, err := localizerObj.LocalizeMessage(&i18n.Message{ID: key})
 	if err != nil {
 		logx.Errorf("Message Trans err : %s, lan : %s, key : %s", err.Error(), lan, key)

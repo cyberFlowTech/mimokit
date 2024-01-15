@@ -1,6 +1,8 @@
 package lan
 
-import "golang.org/x/text/language"
+import (
+	"golang.org/x/text/language"
+)
 
 // SupportLan 语言包文件名与这里一致
 var SupportLan = map[string]language.Tag{
