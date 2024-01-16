@@ -83,7 +83,7 @@ func GetTranslate() *Translate {
 
 func Trans(lan string, key string, args ...interface{}) string {
 	if p := GetTranslate(); p != nil {
-		return p.Trans(lan, key, args)
+		return p.Trans(lan, key, args...)
 	}
 	//兜底文案
 	return "The current network is congested, please wait [-0]"
