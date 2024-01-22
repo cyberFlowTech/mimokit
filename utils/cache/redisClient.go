@@ -326,3 +326,7 @@ func (c *RedisClient) Ttl(ctx context.Context, key string) (val int, err error) 
 	val = int(duration / time.Second)
 	return
 }
+
+func (c *RedisClient) ZRemCtx(ctx context.Context, key string, member ...interface{}) (int64, error) {
+	return c.rc.ZRem(ctx, key, member...).Result()
+}
