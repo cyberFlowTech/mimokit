@@ -42,11 +42,15 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 		return errors.New("服务内部错误")
 	}
 	var payloadMap = make(map[string]string)
+	var noNilStringPayloadMap = make(map[string]string)
 	for key, value := range r.Form {
 		if len(value) > 0 {
 			//value1, _ := url.PathUnescape(value[0])
 			//payloadMap[key] = value1
 			payloadMap[key] = value[0]
+			if value[0] != "" {
+				noNilStringPayloadMap[key] = value[0]
+			}
 		} else {
 			payloadMap[key] = ""
 		}
@@ -60,8 +64,11 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 	}
 	_, err = checkSign(payloadMap)
 	if err != nil {
-		httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "Invalid signature information"))
-		return errors.New("Invalid signature information")
+		_, err = checkSign(noNilStringPayloadMap)
+		if err != nil {
+			httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "Invalid signature information"))
+			return errors.New("Invalid signature information")
+		}
 	}
 	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 	return nil
