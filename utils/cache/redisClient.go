@@ -332,5 +332,10 @@ func (c *RedisClient) ZRemCtx(ctx context.Context, key string, member ...interfa
 }
 
 func (c *RedisClient) ZScoreCtx(ctx context.Context, key string, member string) (float64, error) {
-	return c.rc.ZScore(ctx, key, member).Result()
+	s, err := c.rc.ZScore(ctx, key, member).Result()
+	if err == redis.Nil {
+		return -1, nil
+	}
+
+	return s, err
 }
