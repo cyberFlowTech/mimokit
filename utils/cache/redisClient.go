@@ -317,6 +317,15 @@ func (c *RedisClient) ZRevRangeByScoreWithScoresAndLimitCtx(ctx context.Context,
 	return
 }
 
+func (c *RedisClient) ZCount(ctx context.Context, key string, min, max string) (val int64, err error) {
+	v, err := c.rc.ZCount(ctx, key, min, max).Result()
+	if err != nil {
+		return
+	}
+
+	return v, nil
+}
+
 func (c *RedisClient) Ttl(ctx context.Context, key string) (val int, err error) {
 	duration, err := c.rc.TTL(ctx, key).Result()
 	if err != nil {
