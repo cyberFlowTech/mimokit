@@ -333,5 +333,6 @@
   "1000432": "No permission for this operation",
   "1000433": "This operation cannot be performed on administrators",
   "1000434": "Start a chat",
-  "1000435": "Open the program"
+  "1000435": "Open the program",
+  "1000436": "Payment Notification"
 }
