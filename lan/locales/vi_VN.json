@@ -334,5 +334,7 @@
   "1000433": "This operation cannot be performed on administrators",
   "1000434": "Start a chat",
   "1000435": "Open the program",
-  "1000436": "Thông báo thanh toán"
+  "1000436": "Thông báo thanh toán",
+  "1000437": "Nhận được %v %v",
+  "1000438": "Gửi đi %v %v"
 }

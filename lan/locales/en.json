@@ -334,5 +334,7 @@
   "1000433": "This operation cannot be performed on administrators",
   "1000434": "Start a chat",
   "1000435": "Open the program",
-  "1000436": "Payment Notification"
+  "1000436": "Payment Notification",
+  "1000437": "Received %v %v",
+  "1000438": "Transferred out %v %v"
 }
