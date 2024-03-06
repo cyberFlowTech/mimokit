@@ -41,7 +41,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 	} else {
 		//错误返回
 		errcode := h.ServerCommonErrorCode
-		errmsg := "The server has something wrong, please try again later."
+		errmsg := "The server has encountered an issue. Please try again later."
 
 		causeErr := errors.Cause(err)           // err类型
 		if e, ok := causeErr.(*CodeError); ok { //自定义错误类型
@@ -52,7 +52,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			if gstatus, ok := status.FromError(causeErr); ok { // grpc err错误
 				// 判断是否为自定义错误。根据CodeError Error格式进行判断
 				str := gstatus.String()
-				reCode := regexp.MustCompile(`ErrCode:(\d+)`)
+				reCode := regexp.MustCompile(`ErrCode:[-]?(\d+)`)
 				if reCode.MatchString(str) {
 					s := reCode.FindString(str)
 					splits := strings.Split(s, ":")
@@ -76,7 +76,10 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 		// 多语言转换优先级最高
 		if h.Config.Trans == true && r.FormValue("lan") != "" {
 			if msg := lan.Trans(r.FormValue("lan"), strconv.Itoa(errcode)); msg != "" {
-				errmsg = msg
+				if !strings.Contains(msg, "The current network is congested, please wait") {
+					//能转译成功则赋值
+					errmsg = msg
+				}
 			}
 		}
 		if errcode == h.TokenExpireErrorCode {
