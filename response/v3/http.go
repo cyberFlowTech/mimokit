@@ -47,7 +47,15 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 		if e, ok := causeErr.(*CodeError); ok { //自定义错误类型
 			//自定义CodeError
 			errcode = e.GetErrCode()
-			errmsg = e.GetErrMsg()
+
+			if msg, ok := h.message[errcode]; ok {
+				errmsg = msg
+			}
+			// 优先自定义消息
+			if e.GetErrMsg() != "" {
+				errmsg = e.GetErrMsg()
+			}
+
 		} else {
 			if gstatus, ok := status.FromError(causeErr); ok { // grpc err错误
 				// 判断是否为自定义错误。根据CodeError Error格式进行判断
@@ -89,7 +97,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 		}
 
 		//logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v user_id:%v err: %+v ", r.RequestURI, r.FormValue("user_id"), err)
-		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v user_id:%v err: %v ", r.RequestURI, r.FormValue("user_id"), err)
+		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v|user_id:%v|err:%v ", r.RequestURI, r.FormValue("user_id"), err)
 		httpx.WriteJson(w, http.StatusOK, NewErrCodeMsg(errcode, errmsg))
 	}
 }

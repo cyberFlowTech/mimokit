@@ -2,6 +2,7 @@ package response
 
 import (
 	"fmt"
+	"strings"
 )
 
 type CodeError struct {
@@ -34,6 +35,12 @@ func Success(data interface{}) *CodeSuccess {
 	return &CodeSuccess{OK, "OK", data}
 }
 
-func NewErrCodeMsg(errCode int, errMsg string) *CodeError {
-	return &CodeError{IRet: errCode, SMsg: errMsg}
+func NewErrCodeMsg(errCode int, errMsg ...string) *CodeError {
+	msg := ""
+	if len(errMsg) == 1 {
+		msg = errMsg[0]
+	} else if len(errMsg) > 1 {
+		msg = strings.Join(errMsg, ",")
+	}
+	return &CodeError{IRet: errCode, SMsg: msg}
 }
