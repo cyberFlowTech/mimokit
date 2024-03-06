@@ -58,11 +58,18 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 					splits := strings.Split(s, ":")
 					if len(splits) == 2 {
 						//fmt.Println(splits[1]) // errcode
+						// 自定义消息
+						errCode, err := strconv.Atoi(splits[1])
+						if msg, ok := h.message[errCode]; ok && err == nil {
+							errmsg = msg
+						}
+						// 自定义消息优先级更高
 						reMsg := regexp.MustCompile(`ErrMsg:(.*)`)
 						msg := reMsg.FindString(str)
 						if msg != "" {
 							errmsg = strings.Replace(msg, "ErrMsg:", "", 1)
 						}
+
 					}
 				}
 			}
