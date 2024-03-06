@@ -57,24 +57,23 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 					s := reCode.FindString(str)
 					splits := strings.Split(s, ":")
 					if len(splits) == 2 {
-						//fmt.Println(splits[1]) // errcode
-						// 自定义消息
-						errCode, err := strconv.Atoi(splits[1])
-						if msg, ok := h.message[errCode]; ok && err == nil {
+						errcode, err = strconv.Atoi(splits[1])
+						if msg, ok := h.message[errcode]; ok && err == nil {
 							errmsg = msg
 						}
 						// 自定义消息优先级更高
 						reMsg := regexp.MustCompile(`ErrMsg:(.*)`)
 						msg := reMsg.FindString(str)
+						msg = strings.Replace(msg, "ErrMsg:", "", 1)
 						if msg != "" {
-							errmsg = strings.Replace(msg, "ErrMsg:", "", 1)
+							errmsg = msg
 						}
 
 					}
 				}
 			}
 		}
-		// 多语言转换
+		// 多语言转换优先级最高
 		if h.Config.Trans == true && r.FormValue("lan") != "" {
 			if msg := lan.Trans(r.FormValue("lan"), strconv.Itoa(errcode)); msg != "" {
 				errmsg = msg
@@ -86,7 +85,8 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			errcode = UniformErrorCode
 		}
 
-		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v user_id:%v err: %+v ", r.RequestURI, r.FormValue("user_id"), err)
+		//logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v user_id:%v err: %+v ", r.RequestURI, r.FormValue("user_id"), err)
+		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v user_id:%v err: %v ", r.RequestURI, r.FormValue("user_id"), err)
 		httpx.WriteJson(w, http.StatusOK, NewErrCodeMsg(errcode, errmsg))
 	}
 }
