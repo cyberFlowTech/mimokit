@@ -44,3 +44,7 @@ func NewErrCodeMsg(errCode int, errMsg ...string) *CodeError {
 	}
 	return &CodeError{IRet: errCode, SMsg: msg}
 }
+
+func NewErrMsg(errMsg string) *CodeError {
+	return &CodeError{IRet: -1, SMsg: errMsg}
+}
