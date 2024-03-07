@@ -65,8 +65,9 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 					s := reCode.FindString(str)
 					splits := strings.Split(s, ":")
 					if len(splits) == 2 {
-						errcode, err = strconv.Atoi(splits[1])
-						if msg, ok := h.message[errcode]; ok && err == nil {
+						var err2 error
+						errcode, err2 = strconv.Atoi(splits[1])
+						if msg, ok := h.message[errcode]; ok && err2 == nil {
 							errmsg = msg
 						}
 						// 自定义消息优先级更高
@@ -82,7 +83,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			}
 		}
 		// 多语言转换优先级最高
-		if h.Config.Trans == true && r.FormValue("lan") != "" {
+		if h.Config.Trans == true && r.FormValue("lan") != "" && errcode != -1 {
 			if msg := lan.Trans(r.FormValue("lan"), strconv.Itoa(errcode)); msg != "" {
 				if !strings.Contains(msg, "The current network is congested, please wait") {
 					//能转译成功则赋值
@@ -96,7 +97,6 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			errcode = UniformErrorCode
 		}
 
-		//logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v user_id:%v err: %+v ", r.RequestURI, r.FormValue("user_id"), err)
 		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v|user_id:%v|err:%v ", r.RequestURI, r.FormValue("user_id"), err)
 		httpx.WriteJson(w, http.StatusOK, NewErrCodeMsg(errcode, errmsg))
 	}
