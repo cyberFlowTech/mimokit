@@ -336,5 +336,6 @@
   "1000435": "Open the program",
   "1000436": "Payment Notification",
   "1000437": "Received %v %v",
-  "1000438": "Transferred out %v %v"
+  "1000438": "Transferred out %v %v",
+  "1000439": "[Transfer]Initiating a transfer to you"
 }
