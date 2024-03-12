@@ -31,10 +31,12 @@ const (
 	ClubVisited          Action = "ClubVisited"
 	ClubCreated          Action = "ClubCreated"
 	ClubShared           Action = "ClubShared"
+	ClubH5Visited        Action = "ClubH5Visited"
 	ClubH5Download       Action = "ClubH5Download"
 	ClubH5Active         Action = "ClubH5Active"
 	ClubDissolution      Action = "ClubDissolution"
 	ChannelDelete        Action = "ChannelDelete"
+	ChannelCreate        Action = "ChannelCreate"
 	ClubQuit             Action = "ClubQuit"
 	ClubRoleCreate       Action = "ClubRoleCreate"
 	ClubBlockUser        Action = "ClubBlockUser"
@@ -209,6 +211,16 @@ func (s StatLog) ClubSharedEvent(platform Platform, userId int64) (sql.Result, e
 	return s.insertToDB(data)
 }
 
+func (s StatLog) ClubH5VisitedEvent(platform Platform, userId int64) (sql.Result, error) {
+	data := StatLogEntity{
+		PlatformType: platform,
+		UserId:       userId,
+		ActionType:   ClubH5Visited,
+		Ext:          defaultJson,
+	}
+	return s.insertToDB(data)
+}
+
 func (s StatLog) ClubH5DownloadEvent(platform Platform, userId int64) (sql.Result, error) {
 	data := StatLogEntity{
 		PlatformType: platform,
@@ -244,6 +256,16 @@ func (s StatLog) ChannelDeleteEvent(platform Platform, userId int64) (sql.Result
 		PlatformType: platform,
 		UserId:       userId,
 		ActionType:   ChannelDelete,
+		Ext:          defaultJson,
+	}
+	return s.insertToDB(data)
+}
+
+func (s StatLog) ChannelCreateEvent(platform Platform, userId int64) (sql.Result, error) {
+	data := StatLogEntity{
+		PlatformType: platform,
+		UserId:       userId,
+		ActionType:   ChannelCreate,
 		Ext:          defaultJson,
 	}
 	return s.insertToDB(data)
