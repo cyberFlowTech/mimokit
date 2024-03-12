@@ -120,8 +120,8 @@
   "1000219": "Password is incorrect, there are %v opportunities left today",
   "1000220": "Wallet account numbers don't match",
   "1000221": "You have already selected an NFT and cannot operate it again",
-  "1000222": "Crypto box received",
-  "1000223": "Crypto box refunded",
+  "1000222": "Receive Crypto Box",
+  "1000223": "Crypto Box refunded ",
   "1000224": "Withdraw",
   "1000225": "Best wishes",
   "1000226": "Under creation",
@@ -138,7 +138,7 @@
   "1000237": "Crypto box too many",
   "1000238": "Crypto box amount only supports up to 2 decimal places",
   "1000239": "Crypto box abnormal amount",
-  "1000240": "Create crypto box",
+  "1000240": "Create Crypto Box",
   "1000241": "Crypto box received",
   "1000242": "processing",
   "1000243": "success",
@@ -337,5 +337,6 @@
   "1000436": "Payment Notification",
   "1000437": "Received %v %v",
   "1000438": "Transferred out %v %v",
-  "1000439": "[Transfer]Initiating a transfer to you"
+  "1000439": "[Transfer]Initiating a transfer to you",
+  "1000440": "Top up (Success) "
 }

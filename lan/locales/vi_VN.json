@@ -120,8 +120,8 @@
   "1000219": "Mật khẩu không chính xác', và vẫn còn {lần} cơ hội ngày hôm nay",
   "1000220": "Ví và tài khoản không khớp",
   "1000221": "Bạn đã chọn NFT và không thể hoạt động lại",
-  "1000222": "Nhận một hồng bao",
-  "1000223": "Trả lại hồng bao ",
+  "1000222": "Nhận phong bì đỏ",
+  "1000223": "Hoàn trả phong bì đỏ",
   "1000224": "rút tiền",
   "1000225": "Chúc mừng bạn đã kiếm được nhiều tiền', chúc may mắn",
   "1000226": "Đang tạo",
@@ -138,7 +138,7 @@
   "1000237": "Có quá nhiều hồng bao",
   "1000238": "Số lượng hồng bao chỉ hỗ trợ tối đa 2 chữ số thập phân",
   "1000239": "Số lượng hồng bao bất thường",
-  "1000240": "Tạo hồng bao",
+  "1000240": "Tạo phong bì đỏ",
   "1000241": "Hồng bao đã được nhận",
   "1000242": "Đa tiến hành",
   "1000243": "Thành công",
@@ -337,5 +337,6 @@
   "1000436": "Thông báo thanh toán",
   "1000437": "Nhận được %v %v",
   "1000438": "Gửi đi %v %v",
-  "1000439": "Chuyển khoản]Dang khởi tạo một giao dịch chuyển tiền tới bạn."
+  "1000439": "Chuyển khoản]Dang khởi tạo một giao dịch chuyển tiền tới bạn.",
+  "1000440": "Nạp tiền (Thành công)"
 }
