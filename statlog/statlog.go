@@ -22,12 +22,12 @@ const (
 	UserLogin            Action = "UserLogin"
 	UserRegister         Action = "UserRegister"
 	UserCardVisited      Action = "UserCardVisited"
-	UserCardScan         Action = "UserCardVisited"
+	UserCardScan         Action = "UserCardScan"
 	UserCardH5Visited    Action = "UserCardH5Visited"
 	UserCardH5Download   Action = "UserCardH5Download"
 	UserCardH5Active     Action = "UserCardH5Active"
-	RedPackageCreate     Action = "RedPackageCreate"
-	RedPackGet           Action = "RedPackGet"
+	RedPacketCreate      Action = "RedPacketCreate"
+	RedPacketGet         Action = "RedPacketGet"
 	ClubVisited          Action = "ClubVisited"
 	ClubCreated          Action = "ClubCreated"
 	ClubShared           Action = "ClubShared"
@@ -48,8 +48,11 @@ const (
 
 type Platform string
 
-const Platform_IOS Platform = "ios"
-const Platform_Andriod Platform = "ios"
+const (
+	Platform_IOS     Platform = "10"
+	Platform_Andriod Platform = "20"
+	Platform_Unknown Platform = "99"
+)
 
 func New(db sqlx.SqlConn, redis redis.UniversalClient) StatLog {
 	return StatLog{db: db, redis: redis}
@@ -100,16 +103,12 @@ func (s StatLog) UserRegisterEvent(platform Platform, userId int64) (sql.Result,
 	return s.insertToDB(data)
 }
 
-func (s StatLog) UserCardVisitedEvent(platform Platform, userId, tbMid int64) (sql.Result, error) {
-	m := map[string]int64{}
-	m["tb_mid"] = tbMid
-	marshal, _ := json.Marshal(m)
-
+func (s StatLog) UserCardVisitedEvent(platform Platform, userId int64) (sql.Result, error) {
 	data := StatLogEntity{
 		PlatformType: platform,
 		UserId:       userId,
 		ActionType:   UserCardVisited,
-		Ext:          string(marshal),
+		Ext:          defaultJson,
 	}
 	return s.insertToDB(data)
 }
@@ -154,35 +153,38 @@ func (s StatLog) UserCardH5ActiveEvent(platform Platform, userId int64) (sql.Res
 	return s.insertToDB(data)
 }
 
-func (s StatLog) RedPackageCreateEvent(platform Platform, userId, quantity int64) (sql.Result, error) {
+func (s StatLog) RedPacketCreateEvent(platform Platform, userId, quantity int64) (sql.Result, error) {
 	m := map[string]int64{}
 	m["quantity"] = quantity
 	marshal, _ := json.Marshal(m)
 	data := StatLogEntity{
 		PlatformType: platform,
 		UserId:       userId,
-		ActionType:   RedPackageCreate,
+		ActionType:   RedPacketCreate,
 		Ext:          string(marshal),
 	}
 	return s.insertToDB(data)
 }
 
-func (s StatLog) RedPackGetEvent(platform Platform, userId int64) (sql.Result, error) {
+func (s StatLog) RedPacketGetEvent(platform Platform, userId int64) (sql.Result, error) {
 	data := StatLogEntity{
 		PlatformType: platform,
 		UserId:       userId,
-		ActionType:   RedPackGet,
+		ActionType:   RedPacketGet,
 		Ext:          defaultJson,
 	}
 	return s.insertToDB(data)
 }
 
-func (s StatLog) ClubVisitedEvent(platform Platform, userId int64) (sql.Result, error) {
+func (s StatLog) ClubVisitedEvent(platform Platform, userId, tbMid int64) (sql.Result, error) {
+	m := map[string]int64{}
+	m["tb_mid"] = tbMid
+	marshal, _ := json.Marshal(m)
 	data := StatLogEntity{
 		PlatformType: platform,
 		UserId:       userId,
 		ActionType:   ClubVisited,
-		Ext:          defaultJson,
+		Ext:          string(marshal),
 	}
 	return s.insertToDB(data)
 }

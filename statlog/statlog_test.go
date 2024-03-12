@@ -86,14 +86,14 @@ func TestStatLog_RedPackageCreateEvent(t *testing.T) {
 				db:    tt.fields.db,
 				redis: tt.fields.redis,
 			}
-			_, err := s.RedPackageCreateEvent(tt.args.platform, tt.args.userId, tt.args.quantity)
+			_, err := s.RedPacketCreateEvent(tt.args.platform, tt.args.userId, tt.args.quantity)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("RedPackageCreateEvent() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("RedPacketCreateEvent() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 
 			//if !reflect.DeepEqual(got, tt.want) {
-			//	t.Errorf("RedPackageCreateEvent() got = %v, want %v", got, tt.want)
+			//	t.Errorf("RedPacketCreateEvent() got = %v, want %v", got, tt.want)
 			//}
 		})
 	}
