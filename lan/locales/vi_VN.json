@@ -145,8 +145,8 @@
   "1000244": "Không nhận được Gas Price",
   "1000245": "Không thể lấy được giá trị của đồng tiền",
   "1000246": "Vui lòng nhập ghi chú trong vòng 16 từ",
-  "1000247": "Encounter data exception while creating crypto box",
-  "1000248": "Encounter data exception while creating crypto box type",
+  "1000247": "Encounter data exception while creating Crypto Box",
+  "1000248": "Encounter data exception while creating Crypto Box type",
   "1000249": "Announcement cannot be empty",
   "1000250": "Please enter content for announcement under %v words",
   "1000251": "Announcement is no longer exist or deleted",
@@ -337,6 +337,5 @@
   "1000436": "Thông báo thanh toán",
   "1000437": "Nhận được %v %v",
   "1000438": "Gửi đi %v %v",
-  "1000439": "Chuyển khoản]Dang khởi tạo một giao dịch chuyển tiền tới bạn.",
-  "1000440": "Nạp tiền (Thành công)"
+  "1000439": "Chuyển khoản]Dang khởi tạo một giao dịch chuyển tiền tới bạn."
 }
