@@ -1,5 +1,7 @@
 package utils
 
+import "strings"
+
 // apikey映射关系
 var (
 	ApiKeyMap = map[string]string{
@@ -21,6 +23,26 @@ var (
 		"i_1681997960": "!&^%as&$ST@#",   // 环信切换 uniapp ios机
 	}
 )
+
+func GetPlatformFromApi(api string) string {
+	if _, ok := ApiKeyMap[api]; ok {
+		strs := strings.Split(api, "_")
+		//10 => 'iPhone',     //苹果
+		//	20 => 'Android',    //安卓
+		//	30 => 'PC Web'          //pc web端
+		switch strs[0] {
+		case "i":
+			return "10"
+		case "a":
+			return "20"
+		case "w":
+			return "30"
+		}
+	} else {
+		return "99"
+	}
+	return "99"
+}
 
 const (
 	PERIOD         = 72000           // 签名超时时间,单位秒
