@@ -111,7 +111,7 @@ func checkSign(payloadMap map[string]string) (bool, error) {
 	}
 	diffTime := int64(math.Abs(float64(int64(nowTime) - int64(signTime))))
 	if diffTime > utils.PERIOD {
-		logx.Error("sign time out", nowTime, signTime)
+		logx.Errorf("sign time out nowTime:%v, signTime:%v", nowTime, signTime)
 		return false, response.SignError
 	}
 	return true, nil
