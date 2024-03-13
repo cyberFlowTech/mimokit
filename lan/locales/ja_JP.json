@@ -337,5 +337,6 @@
   "1000436": "Payment Notification",
   "1000437": "Received %v %v",
   "1000438": "Transferred out %v %v",
-  "1000439": "[Transfer]Initiating a transfer to you"
+  "1000439": "[Transfer]Initiating a transfer to you",
+  "1000440": "%v %v transfer failed"
 }
