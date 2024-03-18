@@ -28,8 +28,8 @@ const (
 	UserCardH5Active   Action = "UserCardH5Active"
 
 	// RedPacket Event
-	RedPacketCreate Action = "RedPacketCreate"
-	RedPacketGet    Action = "RedPacketGet"
+	RedPacketCreate Action = "RedPacketCreate" //红包创建 ext: 红包分发份数 quantity:4
+	RedPacketGet    Action = "RedPacketGet"    //获取红包
 
 	// Club Event
 	ClubVisited          Action = "ClubVisited"
