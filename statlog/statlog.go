@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/cyberFlowTech/mimokit/utils"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"strconv"
@@ -62,6 +63,23 @@ const (
 	Platform_PC      Platform = "30"
 	Platform_Unknown Platform = "99"
 )
+
+func GetPlatformTypeByAPi(api string) Platform {
+	fromApi := utils.GetPlatformFromApi(api)
+	platformType := Platform_Unknown
+	switch fromApi {
+	case "10":
+		platformType = Platform_IOS
+	case "20":
+		platformType = Platform_Andriod
+	case "30":
+		platformType = Platform_PC
+	case "99":
+		platformType = Platform_Unknown
+
+	}
+	return platformType
+}
 
 func New(db sqlx.SqlConn) StatLog {
 	return StatLog{db: db}
