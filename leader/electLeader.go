@@ -2,6 +2,7 @@ package leader
 
 import (
 	"context"
+	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/concurrency"
@@ -29,6 +30,9 @@ func ElectLeader(config ElectionConfig) {
 		logx.Errorf("Failed to create session: %v", err)
 		return
 	}
+	fmt.Println("you have been elected as leader")
+	if config.OnBecameLeader != nil {
+		config.OnBecameLeader()
+	}
 
-	config.OnBecameLeader()
 }
