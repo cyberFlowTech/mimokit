@@ -83,7 +83,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			}
 		}
 		// 多语言转换优先级最高
-		if h.Config.Trans == true && r.FormValue("lan") != "" && errcode != -1 {
+		if h.Config.Trans == true && r.FormValue("lan") != "" && errcode != -1 && errcode != 2 {
 			if msg := lan.Trans(r.FormValue("lan"), strconv.Itoa(errcode)); msg != "" {
 				if !strings.Contains(msg, "The current network is congested, please wait") {
 					//能转译成功则赋值
@@ -93,6 +93,8 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 		}
 		if errcode == h.TokenExpireErrorCode {
 			errcode = TokenExpiredErrorCode
+		} else if errcode == 2 {
+			errcode = 2 //记录不存在时，返回的错误码，终端会做跳转处理
 		} else {
 			errcode = UniformErrorCode
 		}
