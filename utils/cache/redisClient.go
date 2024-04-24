@@ -348,3 +348,7 @@ func (c *RedisClient) ZScoreCtx(ctx context.Context, key string, member string) 
 
 	return s, err
 }
+
+func (c *RedisClient) SetNX(ctx context.Context, key string, val interface{}, timeout int) (bool, error) {
+	return c.rc.SetNX(ctx, key, val, time.Duration(timeout)*time.Second).Result()
+}
