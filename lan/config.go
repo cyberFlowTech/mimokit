@@ -13,4 +13,6 @@ var SupportLan = map[string]language.Tag{
 	"ko_KR": language.Korean,
 	"vi_VN": language.Vietnamese,
 	"mn_MN": language.Mongolian,
+	"pt_PT": language.Portuguese,
+	"es_ES": language.Spanish,
 }
