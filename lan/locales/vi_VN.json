@@ -340,6 +340,7 @@
   "1000439": "Chuyển khoản]Dang khởi tạo một giao dịch chuyển tiền tới bạn.",
   "1000440": "Chuyển khoản %v %v thất bại",
   "1000441": "Tiền lẻ",
-  "1000442": "Tài khoản đã được liên kết với người dùng khác"
+  "1000442": "Tài khoản đã được liên kết với người dùng khác",
+  "1000443": "Tiêu đề phải ít hơn 64 ký tự"
 
 }

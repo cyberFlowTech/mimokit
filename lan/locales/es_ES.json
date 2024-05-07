@@ -340,5 +340,6 @@
 "1000439": "[Transferencia] Te han enviado una transferencia",
 "1000440": "%v %v transferencia fallida",
 "1000441": "Cambio",
-"1000442": "Account has been linked to another user"
+"1000442": "Account has been linked to another user",
+"1000443": "The title must be less than 64 characters"
 }

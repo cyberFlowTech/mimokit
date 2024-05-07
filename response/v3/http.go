@@ -42,7 +42,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 		//错误返回
 		errcode := h.ServerCommonErrorCode
 		errmsg := "The server has encountered an issue. Please try again later."
-
+		//文案提示优先级：多语言转换->自定义消息->兜底文案
 		causeErr := errors.Cause(err)           // err类型
 		if e, ok := causeErr.(*CodeError); ok { //自定义错误类型
 			//自定义CodeError
@@ -51,7 +51,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			if msg, ok := h.message[errcode]; ok {
 				errmsg = msg
 			}
-			// 优先自定义消息
+			// 自定义消息
 			if e.GetErrMsg() != "" {
 				errmsg = e.GetErrMsg()
 			}

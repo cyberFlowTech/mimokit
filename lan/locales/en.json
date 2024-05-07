@@ -340,6 +340,7 @@
   "1000439": "[Transfer]Initiating a transfer to you",
   "1000440": "%v %v transfer failed",
   "1000441": "Pocket",
-  "1000442": "Account has been linked to another user"
+  "1000442": "Account has been linked to another user",
+  "1000443": "The title must be less than 64 characters"
 
 }

@@ -340,5 +340,6 @@
   "1000439":"[шилжүүлэх] танд шилжүүлэх санаачлах",
   "1000440": "%v % v шилжүүлж чадаагүй",
   "1000441": "өөрчлөлт",
-  "1000442": "Account has been linked to another user"
+  "1000442": "Account has been linked to another user",
+  "1000443": "The title must be less than 64 characters"
 }
