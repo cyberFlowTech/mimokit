@@ -338,5 +338,7 @@
 "1000438": "Transferir para fora %v %v",
 "1000439": "[Transferência] iniciou uma transferência para si",
 "1000440": "%v %v a transferência falhou",
-"1000441": "Alterar"
+"1000441": "Alterar",
+"1000442": "Account has been linked to another user",
+"1000443": "The title must be less than 64 characters"
 }
