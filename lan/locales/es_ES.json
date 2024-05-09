@@ -341,5 +341,7 @@
 "1000440": "%v %v transferencia fallida",
 "1000441": "Cambio",
 "1000442": "Account has been linked to another user",
-"1000443": "The title must be less than 64 characters"
+"1000443": "The title must be less than 64 characters",
+  "1000444": "(Contraseña incorrecta) La contraseña debe tener entre 8 y 16 caracteres, incluyendo letras mayúsculas, minúsculas y números"
+
 }
