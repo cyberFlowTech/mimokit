@@ -342,6 +342,8 @@
   "1000441": "Pocket",
   "1000442": "Account has been linked to another user",
   "1000443": "The title must be less than 64 characters",
-  "1000444": "Password must be 8-16 characters and include both numbers and letters."
+  "1000444": "Password must be 8-16 characters and include both numbers and letters.",
+  "1000445": "Please update to the latest version"
+
 
 }
