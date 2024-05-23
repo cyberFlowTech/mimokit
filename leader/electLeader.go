@@ -25,27 +25,20 @@ func ElectLeader(config ElectionConfig) {
 
 	defer s.Close()
 
-	e := concurrency.NewElection(s, config.ElectionKey)
-	// 查询已选举的对象列表
-	resp, err := config.EtcdClient.Get(context.Background(), config.ElectionKey, clientv3.WithPrefix())
-	if err != nil {
-		log.Fatalf("Failed to get elected objects: %v", err)
-	}
-
-	// 输出已选举的对象列表
-	fmt.Println("Elected objects before election:")
-	for _, kv := range resp.Kvs {
-		fmt.Printf("Key: %s, Value: %s\n", kv.Key, kv.Value)
-	}
-
+	mutex := concurrency.NewMutex(s, config.ElectionKey)
+	// 尝试获取锁
 	ctx := context.TODO()
-	if err := e.Campaign(ctx, "candidate-id"); err != nil {
-		logx.Errorf("Failed to create session: %v", err)
-		return
+	if err := mutex.Lock(ctx); err != nil {
+		log.Fatalf("Failed to acquire lock: %v", err)
 	}
-	fmt.Println("you have been elected as leader")
+	defer mutex.Unlock(ctx)
+	// 如果成功获取锁，说明当前服务成为了 leader
+	fmt.Println("You have been elected as leader")
+	// 调用回调函数（如果存在）
 	if config.OnBecameLeader != nil {
 		config.OnBecameLeader()
 	}
 
+	// 保持 leader 状态
+	select {}
 }
