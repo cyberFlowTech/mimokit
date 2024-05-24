@@ -344,5 +344,7 @@
   "1000443": "Tiêu đề phải ít hơn 64 ký tự",
   "1000444": "(Mật khẩu không đúng) mật khẩu 8-16 số bao gồm chữ hoa và chữ thường tiếng Anh và số",
   "1000445": "Please update to the latest version",
-  "1000446": "CIQI"
+  "1000446": "CIQI",
+  "1000447": "Token đã được thêm",
+  "1000448": "Cập nhật danh sách token người dùng thất bại"
 }

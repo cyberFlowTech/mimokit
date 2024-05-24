@@ -343,5 +343,7 @@
 "1000443": "The title must be less than 64 characters",
   "1000444": "(Senha errada) Senha de 8 a 16 caracteres, deve conter letras maiúsculas e minúsculas e números",
   "1000445": "Please update to the latest version",
-  "1000446": "CIQI"
+  "1000446": "CIQI",
+  "1000447": "Token added",
+  "1000448": "Failed to update user token list"
 }

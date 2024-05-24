@@ -344,5 +344,7 @@
 "1000443": "The title must be less than 64 characters",
   "1000444": "(Contraseña incorrecta) La contraseña debe tener entre 8 y 16 caracteres, incluyendo letras mayúsculas, minúsculas y números",
   "1000445": "Please update to the latest version",
-  "1000446": "CIQI"
+  "1000446": "CIQI",
+  "1000447": "Token added",
+  "1000448": "Failed to update user token list"
 }
