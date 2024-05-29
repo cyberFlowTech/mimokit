@@ -346,5 +346,12 @@
   "1000445": "Please update to the latest version",
   "1000446": "CIQI",
   "1000447": "Token added",
-  "1000448": "Failed to update user token list"
+  "1000448": "Failed to update user token list",
+  "1000449": "Error de código de verificación, por favor inténtelo de nuevo",
+  "1000450": "Solo se puede vincular un método de inicio de sesión, no se puede desvincular.",
+  "1000451": "Must begin with a letter, 6-20 characters long, a combination of English letters or English letters and numbers (case insensitive).",
+  "1000452": "El usuario no existe"
+
+
+
 }

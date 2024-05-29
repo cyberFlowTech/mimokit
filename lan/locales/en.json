@@ -346,5 +346,10 @@
   "1000445": "Please update to the latest version",
   "1000446": "CIQI",
   "1000447": "Token added",
-  "1000448": "Failed to update user token list"
+  "1000448": "Failed to update user token list",
+  "1000449": "Code incorrect. Please try again.",
+  "1000450": "Only one linking method left. Unlinking is not supported.",
+  "1000451": "Must begin with a letter, 6-20 characters long, a combination of English letters or English letters and numbers (case insensitive).",
+  "1000452": "User does not exist"
+
 }

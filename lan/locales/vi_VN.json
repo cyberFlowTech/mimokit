@@ -346,5 +346,10 @@
   "1000445": "Please update to the latest version",
   "1000446": "CIQI",
   "1000447": "Token đã được thêm",
-  "1000448": "Cập nhật danh sách token người dùng thất bại"
+  "1000448": "Cập nhật danh sách token người dùng thất bại",
+  "1000449": "Mã xác nhận không đúng , vui lòng thử lại",
+  "1000450": "Chỉ có một phương thức liên kết, và nó không hỗ trợ hủy liên kết.",
+  "1000451": "Chữ cái đầu là Tiếng Anh , kết hợp của tiếng Anh hoặc tiếng Anh và số, không phân biệt chữ hoa chữ thường, từ 6 đến 20 ký tự.",
+  "1000452": "Người dùng không tồn tại"
+
 }

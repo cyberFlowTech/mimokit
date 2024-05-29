@@ -345,5 +345,10 @@
   "1000445": "Please update to the latest version",
   "1000446": "CIQI",
   "1000447": "Token added",
-  "1000448": "Failed to update user token list"
+  "1000448": "Failed to update user token list",
+  "1000449": "Erro no código de verificação, tente novamente",
+  "1000450": "Existe apenas um método de vinculação e a desvinculação não é suportada.",
+  "1000451": "Must begin with a letter, 6-20 characters long, a combination of English letters or English letters and numbers (case insensitive).",
+  "1000452": "O usuário não existe"
+
 }
