@@ -56,7 +56,7 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 		}
 	}
 	if rds != nil {
-		code, ok := CheckLogin(payloadMap["user_id"], payloadMap["sessid"], payloadMap["uuid"], rds)
+		code, ok := CheckLogin(payloadMap["user_id"], payloadMap["sessid"], payloadMap["uuid"], payloadMap["api"], rds)
 		if !ok {
 			httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(int(code), "Session has expired, please log in again"))
 			return errors.New("Session has expired, please log in again")
@@ -139,11 +139,15 @@ func kv2String(arr map[string]string, securityKey string, ext string) string {
 	return strings.Join(targetArr, ext)
 }
 
-func CheckLogin(userID string, session string, uuid string, rds *cache.RedisClient) (int64, bool) {
+func CheckLogin(userID, session, uuid, api string, rds *cache.RedisClient) (int64, bool) {
 	if session == "6448ef9678573" {
 		return 1, true
 	}
 	rKey := fmt.Sprintf("mime|sessionKey|%s", userID)
+	platform := utils.GetPlatformFromApi(api)
+	if platform == "30" {
+		rKey = fmt.Sprintf("mime|sessionWeb|%s", userID)
+	}
 	ttl, err := rds.Ttl(context.Background(), rKey)
 	if err != nil {
 		logx.Error("Ttl session cache error", rKey, err)
