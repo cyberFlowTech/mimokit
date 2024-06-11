@@ -350,7 +350,8 @@
   "1000449": "Баталгаажуулах код буруу байна, Дахин оролдоно уу",
   "1000450": "Зөвхөн нэг холбох арга байдаг, unbinding дэмжигдээгүй байна",
   "1000451": "Must begin with a letter, 6-20 characters long, a combination of English letters or English letters and numbers (case insensitive).",
-  "1000452": "Хэрэглэгч байхгүй байна"
+  "1000452": "Хэрэглэгч байхгүй байна",
+  "1000453": "Буруу нууц үг"
 
 
 }

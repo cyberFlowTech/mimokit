@@ -15,8 +15,8 @@ import (
 
 type Config struct {
 	Trans                 bool // 是否进行多语言翻译
-	ServerCommonErrorCode int  //内部错误码，非自定义错误
-	TokenExpireErrorCode  int  // 	//登录失效错误码
+	ServerCommonErrorCode int  // 内部错误码，非自定义错误
+	TokenExpireErrorCode  int  // 登录失效错误码
 }
 
 /*HTTP请求返回处理*/
@@ -40,20 +40,20 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 		httpx.WriteJson(w, http.StatusOK, r)
 	} else {
 		//错误返回
-		errcode := h.ServerCommonErrorCode
-		errmsg := "The server has encountered an issue. Please try again later."
+		errorCode := h.ServerCommonErrorCode
+		errMsg := "The server has encountered an issue. Please try again later."
 		//文案提示优先级：多语言转换->自定义消息->兜底文案
 		causeErr := errors.Cause(err)           // err类型
 		if e, ok := causeErr.(*CodeError); ok { //自定义错误类型
 			//自定义CodeError
-			errcode = e.GetErrCode()
+			errorCode = e.GetErrCode()
 
-			if msg, ok := h.message[errcode]; ok {
-				errmsg = msg
+			if msg, ok := h.message[errorCode]; ok {
+				errMsg = msg
 			}
 			// 自定义消息
 			if e.GetErrMsg() != "" {
-				errmsg = e.GetErrMsg()
+				errMsg = e.GetErrMsg()
 			}
 
 		} else {
@@ -66,16 +66,16 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 					splits := strings.Split(s, ":")
 					if len(splits) == 2 {
 						var err2 error
-						errcode, err2 = strconv.Atoi(splits[1])
-						if msg, ok := h.message[errcode]; ok && err2 == nil {
-							errmsg = msg
+						errorCode, err2 = strconv.Atoi(splits[1])
+						if msg, ok := h.message[errorCode]; ok && err2 == nil {
+							errMsg = msg
 						}
 						// 自定义消息优先级更高
 						reMsg := regexp.MustCompile(`ErrMsg:(.*)`)
 						msg := reMsg.FindString(str)
 						msg = strings.Replace(msg, "ErrMsg:", "", 1)
 						if msg != "" {
-							errmsg = msg
+							errMsg = msg
 						}
 
 					}
@@ -83,24 +83,24 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			}
 		}
 		// 多语言转换优先级最高
-		if h.Config.Trans == true && r.FormValue("lan") != "" && errcode != -1 && errcode != 2 {
-			if msg := lan.Trans(r.FormValue("lan"), strconv.Itoa(errcode)); msg != "" {
+		if h.Config.Trans == true && r.FormValue("lan") != "" && errorCode != -1 && errorCode != 2 {
+			if msg := lan.Trans(r.FormValue("lan"), strconv.Itoa(errorCode)); msg != "" {
 				if !strings.Contains(msg, "The current network is congested, please wait") {
 					//能转译成功则赋值
-					errmsg = msg
+					errMsg = msg
 				}
 			}
 		}
-		if errcode == h.TokenExpireErrorCode {
-			errcode = TokenExpiredErrorCode
-		} else if errcode == 2 {
-			errcode = 2 //记录不存在时，返回的错误码，终端会做跳转处理
+		if errorCode == h.TokenExpireErrorCode {
+			errorCode = TokenExpiredErrorCode
+		} else if errorCode == 2 {
+			errorCode = 2 //记录不存在时，返回的错误码，终端会做跳转处理
 		} else {
-			errcode = UniformErrorCode
+			errorCode = UniformErrorCode
 		}
 
 		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v|user_id:%v|err:%v ", r.RequestURI, r.FormValue("user_id"), err)
-		httpx.WriteJson(w, http.StatusOK, NewErrCodeMsg(errcode, errmsg))
+		httpx.WriteJson(w, http.StatusOK, NewErrCodeMsg(errorCode, errMsg))
 	}
 }
 
