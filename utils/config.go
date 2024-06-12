@@ -1,6 +1,11 @@
 package utils
 
-import "strings"
+import (
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 // apikey映射关系
 var (
@@ -48,3 +53,33 @@ const (
 	PERIOD         = 72000           // 签名超时时间,单位秒
 	ClubEncryptKey = "!1@q#w2e$%^#@" // 部落相关id加密key
 )
+
+func GetStatefulSetIndex() (uint, error) {
+	hostname, err := os.Hostname()
+	if err != nil {
+		return 0, fmt.Errorf("failed to get hostname: %v", err)
+	}
+	fmt.Println("Hostname:", hostname)
+
+	if len(hostname) < 1 {
+		return 0, fmt.Errorf("hostname is empty")
+	}
+
+	// 检查主机名是否符合 StatefulSet 的命名规范
+	parts := strings.Split(hostname, "-")
+	if len(parts) < 2 {
+		// 假设是本地或单节点环境
+		fmt.Println("Running in local or single-node environment, returning index 0")
+		return 0, nil
+	}
+
+	// 尝试将最后一部分解析为整数
+	index, err := strconv.ParseUint(parts[len(parts)-1], 10, 64)
+	if err != nil {
+		// 如果解析失败，假设是本地环境
+		fmt.Println("Failed to parse index, assuming local environment:", err)
+		return 0, nil
+	}
+
+	return uint(index), nil
+}
