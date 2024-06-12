@@ -353,7 +353,7 @@
   "1000452": "El usuario no existe",
   "1000453": "Contraseña incorrecta",
   "1000454": "Authorization Notification",
-  "1000455": "Authorization succeeded"
+  "1000455": "Authorization succeeded %v %v"
 
 
 
