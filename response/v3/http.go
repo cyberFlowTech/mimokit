@@ -99,7 +99,7 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			errorCode = UniformErrorCode
 		}
 
-		logx.WithContext(r.Context()).Errorf("【API-ERR】Uri:%v|user_id:%v|err:%v ", r.RequestURI, r.FormValue("user_id"), err)
+		logx.WithContext(r.Context()).Errorf("【ERR】uri:%v|uid:%s|v:%s|p:%s|err:%s ", r.RequestURI, r.FormValue("user_id"), r.FormValue("version"), r.FormValue("api"), err.Error())
 		httpx.WriteJson(w, http.StatusOK, NewErrCodeMsg(errorCode, errMsg))
 	}
 }
