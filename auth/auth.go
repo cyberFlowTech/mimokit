@@ -56,7 +56,7 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 		}
 	}
 	if rds != nil {
-		code, ok := CheckLogin(payloadMap["user_id"], payloadMap["sessid"], payloadMap["uuid"], rds)
+		code, ok := CheckLogin(payloadMap["user_id"], payloadMap["sessid"], payloadMap["uuid"], payloadMap["api"], rds)
 		if !ok {
 			httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(int(code), "Session has expired, please log in again"))
 			return errors.New("Session has expired, please log in again")
@@ -64,10 +64,15 @@ func Auth(r *http.Request, w http.ResponseWriter, rds *cache.RedisClient) error 
 	}
 	_, err = checkSign(payloadMap)
 	if err != nil {
-		_, err = checkSign(noNilStringPayloadMap)
-		if err != nil {
-			httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "Invalid signature information"))
-			return errors.New("Invalid signature information")
+		if errors.Is(err, response.SignNotEqualError) {
+			_, err = checkSign(noNilStringPayloadMap)
+			if err != nil {
+				logx.Errorf("checkSign noNil err:%s", err.Error())
+				httpx.WriteJson(w, http.StatusOK, response2.NewErrCodeMsg(-1, "Invalid signature information"))
+				return errors.New("Invalid signature information")
+			}
+		} else {
+			logx.Errorf("checkSign err:%s", err.Error())
 		}
 	}
 	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
@@ -78,18 +83,15 @@ func checkSign(payloadMap map[string]string) (bool, error) {
 	nowTime := utils.UnixSecondNow()
 	apiKey, ok := payloadMap["api"]
 	if !ok {
-		logx.Error("api key not found")
-		return false, response.SignError
+		return false, errors.WithMessagef(response.SignError, "api key not found")
 	}
 	securityKey, ok := utils.ApiKeyMap[apiKey]
 	if !ok {
-		logx.Error("security key not found")
-		return false, response.SignError
+		return false, errors.WithMessagef(response.SignError, "security key not found")
 	}
 	sign, ok := payloadMap["sign"]
 	if !ok {
-		logx.Error("sign key not found")
-		return false, response.SignError
+		return false, errors.WithMessagef(response.SignError, "sign key not found")
 	}
 	delete(payloadMap, "sign")
 
@@ -97,13 +99,12 @@ func checkSign(payloadMap map[string]string) (bool, error) {
 
 	if sign != signCalculated && sign != "d04fe7bec38e0d596545372e24d5a8f4" {
 		logx.Errorf("sign not equal client:%s server:%s text:%s", sign, signCalculated, signStr)
-		return false, response.SignError
+		return false, response.SignNotEqualError
 	}
 
 	signTimeStr, ok := payloadMap["sign_time"]
 	if !ok {
-		logx.Error("sign_time not found")
-		return false, response.SignError
+		return false, errors.WithMessagef(response.SignError, "sign_time not found")
 	}
 	signTime, err := strconv.ParseUint(signTimeStr, 10, 64)
 	if err != nil {
@@ -111,8 +112,7 @@ func checkSign(payloadMap map[string]string) (bool, error) {
 	}
 	diffTime := int64(math.Abs(float64(int64(nowTime) - int64(signTime))))
 	if diffTime > utils.PERIOD {
-		logx.Errorf("sign time out nowTime:%v, signTime:%v", nowTime, signTime)
-		return false, response.SignError
+		return false, errors.WithMessagef(response.SignError, "sign time out nowTime:%v, signTime:%v", nowTime, signTime)
 	}
 	return true, nil
 }
@@ -139,37 +139,43 @@ func kv2String(arr map[string]string, securityKey string, ext string) string {
 	return strings.Join(targetArr, ext)
 }
 
-func CheckLogin(userID string, session string, uuid string, rds *cache.RedisClient) (int64, bool) {
+func CheckLogin(userID string, session string, uuid string, api string, rds *cache.RedisClient) (int64, bool) {
 	if session == "6448ef9678573" {
 		return 1, true
 	}
-	rKey := fmt.Sprintf("mime|sessionKey|%s", userID)
-	ttl, err := rds.Ttl(context.Background(), rKey)
+	key := ""
+	platformType := utils.GetPlatformFromApi(api)
+	if platformType == "10" || platformType == "20" {
+		key = fmt.Sprintf("mime|sessionKey|%s", userID)
+	} else {
+		key = fmt.Sprintf("mime|sessionWeb|%s", userID)
+	}
+
+	ttl, err := rds.Ttl(context.Background(), key)
 	if err != nil {
-		logx.Error("Ttl session cache error", rKey, err)
+		logx.Error("Ttl session cache error", key, err)
 		return -100, false
 	}
 	if ttl < 0 {
-		logx.Error("session cache expire", rKey, err)
+		logx.Error("session cache expire", key, err)
 		return -100, false
 	}
 	// 获取session
-	cacheSession, err := rds.HgetCtx(context.Background(), rKey, "sessid")
+	cacheSession, err := rds.HgetCtx(context.Background(), key, "sessid")
 	if err != nil {
-		logx.Error("HgetCtx session cache error sessid", rKey, err)
+		logx.Error("HgetCtx session cache error sessid", key, err)
 		return -100, false
 	}
 	if cacheSession != session {
 		// 判断是否换设备
-		cacheUUid, err := rds.HgetCtx(context.Background(), rKey, "uuid")
+		cacheUUid, err := rds.HgetCtx(context.Background(), key, "uuid")
 		if err != nil {
-			logx.Error("HgetCtx session cache error uuid", rKey, err)
+			logx.Error("HgetCtx session cache error uuid", key, err)
 			return -100, false
 		}
 		// 换设备
 		if cacheUUid != uuid {
 			logx.Error("session cache uuid not equal", cacheUUid, uuid)
-
 			return -101, false
 		}
 		logx.Error("session cache not equal", cacheSession, session)
