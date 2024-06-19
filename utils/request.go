@@ -2,6 +2,7 @@ package utils
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -19,7 +20,12 @@ func GetPostFormData(r *http.Request) (map[string]string, error) {
 			if len(kvs) != 2 {
 				continue
 			}
-			args[kvs[0]] = kvs[1]
+			var value string
+			value, err = url.PathUnescape(kvs[1])
+			if err != nil {
+				return args, err
+			}
+			args[kvs[0]] = value
 		}
 	}
 	return args, nil
