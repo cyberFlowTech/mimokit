@@ -2,6 +2,8 @@ package response
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -29,6 +31,27 @@ type CodeSuccess struct {
 	IRet int         `json:"iRet"`
 	SMsg string      `json:"sMsg"`
 	Data interface{} `json:"data"`
+}
+
+func IsCodeError(errMsg string) (bool, CodeError) {
+	var codeError CodeError
+	reCode := regexp.MustCompile(`ErrCode:[-]?(\d+)`)
+	if reCode.MatchString(errMsg) {
+		s := reCode.FindString(errMsg)
+		splits := strings.Split(s, ":")
+		if len(splits) == 2 {
+			codeError.IRet, _ = strconv.Atoi(splits[1])
+			// 自定义消息优先级更高
+			reMsg := regexp.MustCompile(`ErrMsg:(.*)`)
+			msg := reMsg.FindString(errMsg)
+			msg = strings.Replace(msg, "ErrMsg:", "", 1)
+			if msg != "" {
+				codeError.SMsg = msg
+			}
+		}
+		return true, codeError
+	}
+	return false, codeError
 }
 
 func Success(data interface{}) *CodeSuccess {
