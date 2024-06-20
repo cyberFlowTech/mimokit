@@ -95,6 +95,8 @@ func (h *HTTPResponse) JSON(r *http.Request, w http.ResponseWriter, resp interfa
 			errorCode = TokenExpiredErrorCode
 		} else if errorCode == 2 {
 			errorCode = 2 //记录不存在时，返回的错误码，终端会做跳转处理
+		} else if errorCode == 101 {
+			errorCode = 101 // uuid更换了
 		} else {
 			errorCode = UniformErrorCode
 		}
