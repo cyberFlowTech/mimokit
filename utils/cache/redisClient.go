@@ -427,6 +427,7 @@ func (c *RedisClient) XReadGroup(ctx context.Context, data *XReadGroupItem) ([]X
 				Values: m.Values,
 			})
 		}
+		msgData = append(msgData, r)
 	}
 	return msgData, nil
 }
