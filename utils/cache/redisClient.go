@@ -434,3 +434,11 @@ func (c *RedisClient) XReadGroup(ctx context.Context, data *XReadGroupItem) ([]X
 func (c *RedisClient) XAck(ctx context.Context, stream, group string, ids ...string) (int64, error) {
 	return c.rc.XAck(ctx, stream, group, ids...).Result()
 }
+
+func (c *RedisClient) XGroupCreateMkStream(ctx context.Context, stream, group, start string) (string, error) {
+	return c.rc.XGroupCreateMkStream(ctx, stream, group, start).Result()
+}
+
+func (c *RedisClient) XGroupCreateConsumer(ctx context.Context, stream, group, consumer string) (int64, error) {
+	return c.rc.XGroupCreateConsumer(ctx, stream, group, consumer).Result()
+}
