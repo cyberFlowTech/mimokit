@@ -357,12 +357,28 @@ func (c *RedisClient) ZRemRangeByScore(ctx context.Context, key, min, max string
 	return c.rc.ZRemRangeByScore(ctx, key, min, max).Result()
 }
 
-func (c *RedisClient) XAdd(ctx context.Context, Stream string, Id string, Values interface{}) (string, error) {
+type XAddItem struct {
+	Stream     string
+	NoMkStream bool
+	MaxLen     int64 // MAXLEN N
+	MinID      string
+	// Approx causes MaxLen and MinID to use "~" matcher (instead of "=").
+	Approx bool
+	Limit  int64
+	ID     string
+	Values interface{}
+}
+
+func (c *RedisClient) XAdd(ctx context.Context, data *XAddItem) (string, error) {
 	a := &redis.XAddArgs{
-		Stream:     Stream,
-		NoMkStream: false,
-		ID:         Id,
-		Values:     Values,
+		Stream:     data.Stream,
+		NoMkStream: data.NoMkStream,
+		MaxLen:     data.MaxLen,
+		MinID:      data.MinID,
+		Approx:     data.Approx,
+		Limit:      data.Limit,
+		ID:         data.ID,
+		Values:     data.Values,
 	}
 	return c.rc.XAdd(ctx, a).Result()
 }
