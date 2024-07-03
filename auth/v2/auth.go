@@ -26,7 +26,7 @@ func AuthV2(r *http.Request, w http.ResponseWriter, client authen.AuthenClient, 
 	var res *authen.CheckAuthResp
 	res, err = client.CheckAuth(r.Context(), &authen.CheckAuthReq{
 		Args:       args,
-		CheckLogin: checkLogin, // 检查登陆态（所有接口均检查登陆态）
+		CheckLogin: checkLogin, // 检查登陆态
 	})
 	if err != nil {
 		if b, c := response.IsCodeError(err.Error()); b {
