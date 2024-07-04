@@ -34,8 +34,8 @@ func TestTranslate_Trans(t1 *testing.T) {
 				lanList:   obj.lanList,
 			},
 			args{
-				lan:  "en",
-				key:  "1000049",
+				lan:  "zh_CN",
+				key:  "1000255",
 				args: []interface{}{1},
 			},
 			"Please enter an introduction within 1 words",

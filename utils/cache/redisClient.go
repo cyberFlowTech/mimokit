@@ -352,3 +352,94 @@ func (c *RedisClient) ZScoreCtx(ctx context.Context, key string, member string) 
 func (c *RedisClient) SetNX(ctx context.Context, key string, val interface{}, timeout int) (bool, error) {
 	return c.rc.SetNX(ctx, key, val, time.Duration(timeout)*time.Second).Result()
 }
+
+func (c *RedisClient) ZRemRangeByScore(ctx context.Context, key, min, max string) (int64, error) {
+	return c.rc.ZRemRangeByScore(ctx, key, min, max).Result()
+}
+
+type XAddItem struct {
+	Stream     string
+	NoMkStream bool
+	MaxLen     int64 // MAXLEN N
+	MinID      string
+	// Approx causes MaxLen and MinID to use "~" matcher (instead of "=").
+	Approx bool
+	Limit  int64
+	ID     string
+	Values interface{}
+}
+
+func (c *RedisClient) XAdd(ctx context.Context, data *XAddItem) (string, error) {
+	a := &redis.XAddArgs{
+		Stream:     data.Stream,
+		NoMkStream: data.NoMkStream,
+		MaxLen:     data.MaxLen,
+		MinID:      data.MinID,
+		Approx:     data.Approx,
+		Limit:      data.Limit,
+		ID:         data.ID,
+		Values:     data.Values,
+	}
+	return c.rc.XAdd(ctx, a).Result()
+}
+
+type XReadGroupItem struct {
+	Group    string
+	Consumer string
+	Streams  []string // list of streams and ids, e.g. stream1 stream2 id1 id2
+	Count    int64
+	Block    time.Duration
+	NoAck    bool
+}
+
+type XReadGroupResp struct {
+	Streams  string
+	Messages []XMessageItem
+}
+
+type XMessageItem struct {
+	ID     string
+	Values map[string]interface{}
+}
+
+func (c *RedisClient) XReadGroup(ctx context.Context, data *XReadGroupItem) ([]XReadGroupResp, error) {
+	a := &redis.XReadGroupArgs{
+		Group:    data.Group,
+		Consumer: data.Consumer,
+		Streams:  data.Streams,
+		Count:    data.Count,
+		Block:    data.Block,
+		NoAck:    data.NoAck,
+	}
+	resp, err := c.rc.XReadGroup(ctx, a).Result()
+	if err != nil {
+		return nil, err
+	}
+	msgData := make([]XReadGroupResp, 0)
+	for _, v := range resp {
+		r := XReadGroupResp{
+			Streams:  v.Stream,
+			Messages: make([]XMessageItem, 0),
+		}
+		for _, m := range v.Messages {
+			r.Messages = append(r.Messages, XMessageItem{
+				ID:     m.ID,
+				Values: m.Values,
+			})
+		}
+		msgData = append(msgData, r)
+	}
+	return msgData, nil
+}
+
+func (c *RedisClient) XAck(ctx context.Context, stream, group string, ids ...string) (int64, error) {
+	return c.rc.XAck(ctx, stream, group, ids...).Result()
+}
+
+func (c *RedisClient) XGroupCreateMkStream(ctx context.Context, stream, group, start string) (string, error) {
+	return c.rc.XGroupCreateMkStream(ctx, stream, group, start).Result()
+}
+
+func (c *RedisClient) XGroupCreateConsumer(ctx context.Context, stream, group, consumer string) (int64, error) {
+	return c.rc.XGroupCreateConsumer(ctx, stream, group, consumer).Result()
+}

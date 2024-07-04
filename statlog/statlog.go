@@ -112,7 +112,7 @@ func (s StatLog) Log(d []LogEntity) error {
 		case UserLogin:
 			_, _ = s.UserLoginEvent(v.PlatformType, v.UserId)
 		case UserRegister:
-			_, _ = s.UserRegisterEvent(v.PlatformType, v.UserId)
+			_, _ = s.UserRegisterEvent(v.PlatformType, v.UserId, v.Ext)
 		case UserCardVisited:
 			_, _ = s.UserCardVisitedEvent(v.PlatformType, v.UserId)
 		case UserCardScan:
@@ -191,12 +191,20 @@ func (s StatLog) UserLoginEvent(platform Platform, userId int64) (sql.Result, er
 	return res, err
 }
 
-func (s StatLog) UserRegisterEvent(platform Platform, userId int64) (sql.Result, error) {
+func (s StatLog) UserRegisterEvent(platform Platform, userId int64, extData map[string]string) (sql.Result, error) {
+	ext := defaultJson
+	if len(extData) > 0 {
+		marshal, err := json.Marshal(extData)
+		if err != nil {
+			return nil, err
+		}
+		ext = string(marshal)
+	}
 	data := statLogEntity{
 		PlatformType: platform,
 		UserId:       userId,
 		ActionType:   UserRegister,
-		Ext:          defaultJson,
+		Ext:          ext,
 	}
 	return s.insertToDB(data)
 }
