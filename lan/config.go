@@ -15,4 +15,5 @@ var SupportLan = map[string]language.Tag{
 	"mn_MN": language.Mongolian,          // 蒙古语
 	"pt_PT": language.Portuguese,         // 葡萄牙语
 	"es_ES": language.Spanish,            // 西班牙语
+	"th_TH": language.Thai,               // 西班牙语
 }
