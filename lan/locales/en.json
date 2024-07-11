@@ -353,5 +353,7 @@
   "1000452": "User does not exist",
   "1000453": "Password is incorrect",
   "1000454": "Authorization Notification",
-  "1000455": "Authorization succeeded %v %v"
+  "1000455": "Authorization succeeded %v %v",
+  "1000456": "红包"
+
 }
