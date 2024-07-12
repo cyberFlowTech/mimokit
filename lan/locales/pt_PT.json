@@ -353,7 +353,18 @@
   "1000453": "senha incorreta",
   "1000454": "Authorization Notification",
   "1000455": "Authorization succeeded %v %v",
-  "1000456": "Cryto Caixa"
+  "1000456": "Cryto Caixa",
 
-
+  "1000457": "gostou da sua postagem",
+  "1000458": "gostou do seu comentário",
+  "1000459": "comentou sua postagem",
+  "1000460": "respondeu à sua atualização",
+  "1000461": "Candidatar-se a membro da Clube",
+  "1000462": "A sua candidatura foi aprovada",
+  "1000463": "A sua candidatura foi rejeitada",
+  "1000464": "Você foi removido da Clube",
+  "1000465": "Foi removido e banido",
+  "1000466": "dissolveu a Clube",
+  "1000467": "Tens uma nova identidade",
+  "1000468": "Você se torna o novo dono da clube"
 }

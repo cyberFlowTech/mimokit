@@ -354,9 +354,21 @@
   "1000453": "Contraseña incorrecta",
   "1000454": "Authorization Notification",
   "1000455": "Authorization succeeded %v %v",
-  "1000456": "Sobres"
+  "1000456": "Sobres",
 
 
+  "1000457": "le gustó tu dinámica",
+  "1000458": "le gustó tu comentario",
+  "1000459": "comentó tu dinámica",
+  "1000460": "respondió a tu dinámica",
+  "1000461": "ha solicitado unirse a la comunidad",
+  "1000462": "Tu solicitud ha sido aceptada",
+  "1000463": "Tu solicitud ha sido rechazada",
+  "1000464": "Has sido eliminado de la tribu",
+  "1000465": "Has sido eliminado y bloqueado",
+  "1000466": "ha disuelto la tribu",
+  "1000467": "Has obtenido una nueva identidad",
+  "1000468": "Ahora eres el nuevo propietario de la tribu"
 
 
 }
