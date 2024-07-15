@@ -358,7 +358,7 @@
   "1000457": "gostou da sua postagem",
   "1000458": "gostou do seu comentário",
   "1000459": "comentou sua postagem",
-  "1000460": "respondeu à sua atualização",
+  "1000460": "replied to your comment",
   "1000461": "Candidatar-se a membro da Clube",
   "1000462": "A sua candidatura foi aprovada",
   "1000463": "A sua candidatura foi rejeitada",
@@ -366,5 +366,7 @@
   "1000465": "Foi removido e banido",
   "1000466": "dissolveu a Clube",
   "1000467": "Tens uma nova identidade",
-  "1000468": "Você se torna o novo dono da clube"
+  "1000468": "Você se torna o novo dono da clube",
+  "1000469": "Foi removido e banido"
+
 }

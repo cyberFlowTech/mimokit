@@ -358,7 +358,7 @@
   "1000457": "liked your post",
   "1000458": "liked your comment",
   "1000459": "commented on your post",
-  "1000460": "replied to your post",
+  "1000460": "replied to your comment",
   "1000461": "want to join the club",
   "1000462": "approved your join request",
   "1000463": "declined your join request",
@@ -366,5 +366,6 @@
   "1000465": "You are permanently banned",
   "1000466": "dissolved the club",
   "1000467": "You have a new Role",
-  "1000468": "You are now the new club owner"
+  "1000468": "You are now the new club owner",
+  "1000469": "You have been removed and banned"
 }
