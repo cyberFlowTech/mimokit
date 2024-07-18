@@ -8,6 +8,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
+	"fmt"
 	"strings"
 )
 
@@ -154,5 +155,8 @@ func IdDecrypt(encrypted string) (string, error) {
 	}
 	arr := strings.Split(str, "|")
 
+	if len(arr) != 2 {
+		return "", fmt.Errorf("invalied encrypted str")
+	}
 	return arr[1], nil
 }
