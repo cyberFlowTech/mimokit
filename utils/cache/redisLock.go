@@ -44,11 +44,12 @@ func init() {
 }
 
 // NewRedisLock returns a RedisLock.
-func NewRedisLock(store *RedisClient, key string) *RedisLock {
+func NewRedisLock(store *RedisClient, key string, second uint32) *RedisLock {
 	return &RedisLock{
-		store: store,
-		key:   key,
-		id:    stringx.Randn(randomLen),
+		store:   store,
+		seconds: second,
+		key:     key,
+		id:      stringx.Randn(randomLen),
 	}
 }
 
