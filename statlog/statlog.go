@@ -110,7 +110,7 @@ func (s StatLog) Log(d []LogEntity) error {
 	for _, v := range d {
 		switch v.ActionType {
 		case UserLogin:
-			_, _ = s.UserLoginEvent(v.PlatformType, v.UserId)
+			_, _ = s.UserLoginEvent(v.PlatformType, v.UserId, v.Ext)
 		case UserRegister:
 			_, _ = s.UserRegisterEvent(v.PlatformType, v.UserId, v.Ext)
 		case UserCardVisited:
@@ -179,27 +179,31 @@ func (s StatLog) insertToDB(d statLogEntity) (sql.Result, error) {
 	return res, err
 }
 
-func (s StatLog) UserLoginEvent(platform Platform, userId int64) (sql.Result, error) {
-	data := statLogEntity{
-		PlatformType: platform,
-		UserId:       userId,
-		ActionType:   UserLogin,
-		Ext:          defaultJson,
-	}
-	res, err := s.insertToDB(data)
-	//s.redis.SAdd(context.Background(), "se:zapry:statlog:loginUsers:"+time.Now().Format("20060102"), userId)
-	return res, err
-}
-
-func (s StatLog) UserRegisterEvent(platform Platform, userId int64, extData map[string]string) (sql.Result, error) {
+func (s StatLog) UserLoginEvent(platform Platform, userId int64, extData map[string]string) (sql.Result, error) {
 	ext := defaultJson
-	if len(extData) > 0 {
+	if extData != nil {
 		marshal, err := json.Marshal(extData)
 		if err != nil {
 			return nil, err
 		}
 		ext = string(marshal)
 	}
+
+	data := statLogEntity{
+		PlatformType: platform,
+		UserId:       userId,
+		ActionType:   UserLogin,
+		Ext:          ext,
+	}
+	return s.insertToDB(data)
+}
+
+func (s StatLog) UserRegisterEvent(platform Platform, userId int64, extData map[string]string) (sql.Result, error) {
+	marshal, err := json.Marshal(extData)
+	if err != nil {
+		return nil, err
+	}
+	ext := string(marshal)
 	data := statLogEntity{
 		PlatformType: platform,
 		UserId:       userId,

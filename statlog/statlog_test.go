@@ -12,6 +12,7 @@ func TestStatLog_UserLoginEvent(t *testing.T) {
 	type args struct {
 		platform Platform
 		userId   int64
+		ext      map[string]string
 	}
 	tests := []struct {
 		name   string
@@ -28,6 +29,7 @@ func TestStatLog_UserLoginEvent(t *testing.T) {
 			args: args{
 				platform: Platform_IOS,
 				userId:   111,
+				ext:      map[string]string{"ip": "192.168.31.57"},
 			},
 		},
 	}
@@ -36,7 +38,7 @@ func TestStatLog_UserLoginEvent(t *testing.T) {
 			s := StatLog{
 				db: tt.fields.db,
 			}
-			_, err := s.UserLoginEvent(tt.args.platform, tt.args.userId)
+			_, err := s.UserLoginEvent(tt.args.platform, tt.args.userId, tt.args.ext)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UserLoginEvent() error = %v, wantErr %v", err, tt.wantErr)
 				return
