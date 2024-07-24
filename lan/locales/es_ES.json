@@ -355,8 +355,6 @@
   "1000454": "Authorization Notification",
   "1000455": "Authorization succeeded %v %v",
   "1000456": "Sobres",
-
-
   "1000457": "le gustó tu dinámica",
   "1000458": "le gustó tu comentario",
   "1000459": "comentó tu dinámica",
@@ -371,7 +369,6 @@
   "1000468": "Ahora eres el nuevo propietario de la tribu",
   "1000469": "Has sido eliminado y bloqueado",
   "1000470": "requested to add you as a contact",
-  "1000471": "has added you as a contact"
-
-
+  "1000471": "has added you as a contact",
+  "1000472": "Refund for failed withdrawal"
 }
