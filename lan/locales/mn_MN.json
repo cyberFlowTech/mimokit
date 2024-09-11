@@ -371,5 +371,7 @@
   "1000469": "Та устгаж, хориглосон байна",
   "1000470": "requested to add you as a contact",
   "1000471": "has added you as a contact",
-  "1000472": "Цэнгүүлэг амжилтгүй буцах"
+  "1000472": "Цэнгүүлэг амжилтгүй буцах",
+  "1000473": "Insufficient balance for %v, additional amount needed: %v%v",
+  "1000474": "Lack of liquidity, maximum swap amount: %v%v"
 }

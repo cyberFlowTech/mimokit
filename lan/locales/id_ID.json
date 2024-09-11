@@ -370,5 +370,7 @@
   "1000469": "Anda telah dihapus dan diblokir",
   "1000470": "diminta untuk menambahkan Anda sebagai kontak",
   "1000471": "telah menambahkan Anda sebagai kontak",
-  "1000472": "Pengembalian dana gagal"
+  "1000472": "Pengembalian dana gagal",
+  "1000473": "Insufficient balance for %v, additional amount needed: %v%v",
+  "1000474": "Lack of liquidity, maximum swap amount: %v%v"
 }
