@@ -349,7 +349,7 @@
   "1000448": "Gagal memperbarui daftar token pengguna",
   "1000449": "Kode salah. Silakan coba lagi.",
   "1000450": "Hanya satu metode penautan yang tersisa. Pembatalan tautan tidak didukung.",
-  "1000451": "Harus diawali dengan huruf, panjang 6-20 karakter, kombinasi huruf dan angka (tidak peka huruf besar-kecil).",
+  "1000451": "Harus diawali dengan huruf, panjang 6-20 karakter, kombinasi huruf dan angka (tidak peka huruf besar/kecil).",
   "1000452": "Pengguna tidak ada",
   "1000453": "Kata sandi salah",
   "1000454": "Pemberitahuan Otorisasi",
