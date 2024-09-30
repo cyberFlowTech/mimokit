@@ -23,9 +23,9 @@ func TestIsCodeError(t *testing.T) {
 		},
 		{
 			name:  "正常",
-			args:  args{errMsg: "ErrCode:101，ErrMsg:session expired"},
+			args:  args{errMsg: "ErrCode:-101，ErrMsg:session expired"},
 			want:  true,
-			want1: CodeError{IRet: 101, SMsg: "session expired"},
+			want1: CodeError{IRet: -101, SMsg: "session expired"},
 		},
 	}
 	for _, tt := range tests {

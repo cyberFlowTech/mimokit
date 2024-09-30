@@ -55,11 +55,8 @@ func TestHTTPResponse_JSON(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &HTTPResponse{
 				Config: Config{
-					Trans:                 false,
-					ServerCommonErrorCode: tt.fields.ServerCommonErrorCode,
-					TokenExpireErrorCode:  tt.fields.TokenExpireErrorCode,
+					Trans: false,
 				},
-				message: tt.fields.message,
 			}
 			h.JSON(tt.args.r, tt.args.w, tt.args.resp, tt.args.err)
 		})
