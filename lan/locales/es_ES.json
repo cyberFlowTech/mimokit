@@ -372,5 +372,9 @@
   "1000471": "has added you as a contact",
   "1000472": "Reembolso por retiro fallido",
   "1000473": "Insufficient balance for %v, additional amount needed: %v%v",
-  "1000474": "Lack of liquidity, maximum swap amount: %v%v"
+  "1000474": "Lack of liquidity, maximum swap amount: %v%v",
+  "1000475": "The server is busy, please try again later",
+  "1000476": "Esta comunidad no existe o ha sido disuelta",
+  "1000477": "La habitación está fuera de servicio o ha sido eliminada"
+
 }

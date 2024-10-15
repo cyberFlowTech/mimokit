@@ -374,5 +374,8 @@
   "1000471": "พิ่มคุณเป็นรายชื่อที่ติดต่อกันแล้ว",
   "1000472": "เงินคืนถอนล้มเหลว",
   "1000473": "Insufficient balance for %v, additional amount needed: %v%v",
-  "1000474": "Lack of liquidity, maximum swap amount: %v%v"
+  "1000474": "Lack of liquidity, maximum swap amount: %v%v",
+  "1000475": "The server is busy, please try again later",
+  "1000476": "คลับนี้ไม่ใช้งานแล้วหรือถูกยุบแล้ว",
+  "1000477": "ห้องนี้ไม่สามารถใช้งานได้หรือถูกลบแล้ว"
 }

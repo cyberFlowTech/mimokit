@@ -372,5 +372,9 @@
   "1000471": "telah menambahkan Anda sebagai kontak",
   "1000472": "Pengembalian dana gagal",
   "1000473": "Insufficient balance for %v, additional amount needed: %v%v",
-  "1000474": "Lack of liquidity, maximum swap amount: %v%v"
+  "1000474": "Lack of liquidity, maximum swap amount: %v%v",
+  "1000475": "The server is busy, please try again later",
+  "1000476": "Klub sudah tidak ada atau telah dibubarkan",
+  "1000477": "Kamar ini tidak berfungsi atau telah dihapus"
+
 }
