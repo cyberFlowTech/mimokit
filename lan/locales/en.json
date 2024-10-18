@@ -375,6 +375,9 @@
   "1000474": "Lack of liquidity, maximum swap amount: %v%v",
   "1000475": "The server is busy, please try again later",
   "1000476": "The club is defunct or has been disbanded",
-  "1000477": "The room is defunct  or has been deleted."
-
+  "1000477": "The room is defunct  or has been deleted.",
+  "1000478": "Suitable liquidity not found",
+  "1000479": "Duplicate order",
+  "1000480": "Order detection error",
+  "1000481": "Invalid exchange path"
 }

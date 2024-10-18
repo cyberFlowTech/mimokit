@@ -375,6 +375,9 @@
   "1000474": "Lack of liquidity, maximum swap amount: %v%v",
   "1000475": "The server is busy, please try again later",
   "1000476": "Klub sudah tidak ada atau telah dibubarkan",
-  "1000477": "Kamar ini tidak berfungsi atau telah dihapus"
-
+  "1000477": "Kamar ini tidak berfungsi atau telah dihapus",
+  "1000478": "Suitable liquidity not found",
+  "1000479": "Duplicate order",
+  "1000480": "Order detection error",
+  "1000481": "Invalid exchange path"
 }

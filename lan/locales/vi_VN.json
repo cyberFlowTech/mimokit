@@ -375,5 +375,9 @@
   "1000474": "Thiếu thanh khoản, số lượng swap tối đa: %v%v",
   "1000475": "Máy chủ đang bận, vui lòng thử lại sau",
   "1000476": "Bộ tộc không tồn tại hoặc đã giải tán",
-  "1000477": "Phòng này không còn hoạt động hoặc đã bị xóa"
+  "1000477": "Phòng này không còn hoạt động hoặc đã bị xóa",
+  "1000478": "Không tìm thấy thanh khoản phù hợp",
+  "1000479": "Đơn hàng trùng lặp",
+  "1000480": "Lỗi phát hiện đơn hàng",
+  "1000481": "Đường dẫn trao đổi không hợp lệ"
 }

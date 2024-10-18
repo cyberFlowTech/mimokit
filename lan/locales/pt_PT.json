@@ -375,6 +375,10 @@
   "1000474": "Lack of liquidity, maximum swap amount: %v%v",
   "1000475": "The server is busy, please try again later",
   "1000476": "A Clube não existe ou foi dissolvida",
-  "1000477": "O quarto está fora de serviço ou foi deletado"
+  "1000477": "O quarto está fora de serviço ou foi deletado",
+  "1000478": "Suitable liquidity not found",
+  "1000479": "Duplicate order",
+  "1000480": "Order detection error",
+  "1000481": "Invalid exchange path"
 
 }

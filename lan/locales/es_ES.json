@@ -375,6 +375,9 @@
   "1000474": "Lack of liquidity, maximum swap amount: %v%v",
   "1000475": "The server is busy, please try again later",
   "1000476": "Esta comunidad no existe o ha sido disuelta",
-  "1000477": "La habitación está fuera de servicio o ha sido eliminada"
-
+  "1000477": "La habitación está fuera de servicio o ha sido eliminada",
+  "1000478": "Suitable liquidity not found",
+  "1000479": "Duplicate order",
+  "1000480": "Order detection error",
+  "1000481": "Invalid exchange path"
 }
